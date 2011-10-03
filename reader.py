@@ -15,10 +15,10 @@ with open(filename) as f:
     f.readline()
     for i in xrange(nr_of_rows):
         row = f.readline().split()
-        flow.append(row)
+        flow.append([float(x) for x in row])
     f.readline()
     for i in xrange(nr_of_rows):
         row = f.readline().split()
-        distance.append(row)
+        distance.append([float(x) for x in row])
 
 print "File loaded!"
