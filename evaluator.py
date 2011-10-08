@@ -7,8 +7,11 @@ class Evaluator(object):
 
     def evaluate(self, solution):
         score = 0
+        flow = self.instance.flow
+        distance = self.instance.distance
+        sequence = solution.sequence
         for y in xrange(len(self.instance)):
             for x in xrange(len(self.instance)):
-                pass #TODO score += self.instance.flow[y][solution.sequence[x]] * self.instance.distance[y][x]
+                score += flow[y][x] * distance[sequence[y]][sequence[x]]
         return score
-        
+
