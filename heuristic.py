@@ -2,6 +2,7 @@
 
 from solution import Solution
 
+
 class Heuristic(object):
 
     def __init__(self):
@@ -10,8 +11,11 @@ class Heuristic(object):
     def sorted_list(self, matrix, reversed):
         list = []
         for row_index, row in enumerate(matrix):
-            list += [(row_index, column_index, flow_value) for column_index, flow_value in enumerate(matrix[row_index]) if column_index != row_index]
-        list.sort(key = lambda d: d[2], reverse = reversed)
+            list += [(row_index, column_index, flow_value)
+                    for column_index, flow_value
+                    in enumerate(matrix[row_index])
+                    if column_index != row_index]
+        list.sort(key=lambda d: d[2], reverse=reversed)
         return list
 
     def unique_rows_columns(self, list):
@@ -26,7 +30,7 @@ class Heuristic(object):
         return unique
 
     def append_unpaired(self, unique, size):
-        if len(unique)  < size:
+        if len(unique) < size:
             for el in range(size):
                 if el not in unique:
                     unique.append(el)
@@ -40,7 +44,8 @@ class Heuristic(object):
         self.append_unpaired(unique_distances, len(instance.distance))
         self.append_unpaired(unique_flows, len(instance.flow))
 
-        solution = [pair[0] for pair in sorted(zip(unique_distances, unique_flows), key = lambda p: p[1])]
+        sort_key = lambda p: p[1]
+        pairs = sorted(zip(unique_distances, unique_flows), key=sort_key)
+        solution = [pair[0] for pair in pairs]
 
         return Solution(tuple(solution))
-

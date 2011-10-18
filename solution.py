@@ -2,6 +2,7 @@
 
 from itertools import combinations
 
+
 class Solution(object):
 
     def __init__(self, sequence):
@@ -19,4 +20,3 @@ class Solution(object):
 
     def __repr__(self):
         return str(self)
-

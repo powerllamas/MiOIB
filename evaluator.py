@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Evaluator(object):
 
     def __init__(self, instance):
@@ -14,4 +15,3 @@ class Evaluator(object):
             for x in xrange(len(self.instance)):
                 score += flow[y][x] * distance[sequence[y]][sequence[x]]
         return score
-

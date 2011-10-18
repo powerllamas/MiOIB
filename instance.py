@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+
 class Instance(object):
 
-    def __init__(self, filename = None, distance = [], flow = []):
+    def __init__(self, filename=None, distance=[], flow=[]):
         self.flow = []
         self.distance = []
         if filename == None:
@@ -24,4 +25,3 @@ class Instance(object):
 
     def __len__(self):
         return self.nr_of_rows
-
