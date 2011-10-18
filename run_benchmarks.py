@@ -3,7 +3,6 @@ import timeit
 import os
 import re
 
-import benchmarks
 import evaluator
 import instance
 import heuristic
@@ -26,7 +25,7 @@ import random_solver
 
 
 
-def measure(inst, algo, n):
+def compute(inst, algo, n):
     start = time.clock()
     for i in range(n):
         sol = algo.solve(inst)
@@ -38,7 +37,20 @@ def measure(inst, algo, n):
     return elasped, result
     
 algorithms = [("Heuristic", heuristic.Heuristic()), ("Random", random_solver.Random())]
+measures = ["quality", "time", "effectiveness"]
 data_dir = "data/"
+results_dir = "results/"
+results = {}
+
+for alg in algorithms:
+    results[alg[0]] = {}
+    result_filepath = results_dir + alg[0] + ".dat"
+    result_file = open(result_filepath, "w")
+    result_file.write("Instance")
+    for measure in measures:
+        result_file.write(" " + measure)
+    result_file.write("\n")
+    result_file.close()
 
 ls = os.walk(data_dir)
 instance_names = []
@@ -50,25 +62,41 @@ for instance_name in instance_names:
     with open(data_dir+instance_name+".sln") as f:
         value = int(f.readline().split()[1])
         optimal_solutions_values[instance_name] = value
-        
-print optimal_solutions_values.items()
+   
     
-for instance_name in instance_names:
+
+    
+for instance_name in instance_names:    
     inst = instance.Instance(filename = data_dir+instance_name+".dat")
     print "Instance: " + instance_name
     for alg in algorithms:
+        results[alg[0]][instance_name] = {}
         print "\tAlgorithm: " + alg[0]
-        n = 10
-        results = []
+        n = 10        
+        stats = []
         for i in range(1):
-            results.append(measure(inst, alg[1], n))
-        fastest = min(results, key = lambda t: t[0])
-        best_result = max(results, key = lambda t: t[1])
+            stats.append(compute(inst, alg[1], n))
+        fastest = min(stats, key = lambda t: t[0])
+        best_result = max(stats, key = lambda t: t[1])
         result_quality =  optimal_solutions_values[instance_name] / best_result[1] * 100.0
-
+        
+        results[alg[0]][instance_name]["quality"] = result_quality
+        results[alg[0]][instance_name]["time"] = fastest[0]
+        results[alg[0]][instance_name]["effectiveness"] = result_quality / fastest[0]
+        
         print "\t\tBest time: " + str(fastest[0])
         print "\t\tResult quality: " + str(result_quality)
         # print "Result with best time: " + str(fastest[1])
 
         print "\t\tBest result: " + str(best_result[1])
-        # print "Time of best result: " + str(best_result[0])
+        # print "Time of best result: " + str(best_result[0]):
+        
+for alg, instances in results.iteritems():
+    result_filepath = results_dir + alg + ".dat"
+    result_file = open(result_filepath, "a")
+    for instance, measures in instances.iteritems():
+        result_file.write(instance)
+        for measure, value in measures.iteritems():
+            result_file.write(" "+str(value))
+        result_file.write("\n")
+    result_file.close()
