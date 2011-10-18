@@ -25,9 +25,14 @@ def print_results(results):
     for alg, instances in results.iteritems():
         result_filepath = results_dir + alg + ".dat"
         result_file = open(result_filepath, "a")
-        for instance, measures in instances.iteritems():
-            result_file.write(instance)
-            for measure, value in measures.iteritems():
+        counter = 0
+        for instance in sorted(instances, key=lambda i:i[1]):            
+            counter+=1#instance[1]
+            result_file.write(str(counter)+" ")
+            result_file.write(instance[0])
+            measures = instances[instance]
+            for measure in sorted(measures.keys()):
+                value = measures[measure]
                 result_file.write(" "+str(value))
             result_file.write("\n")
         result_file.close()
@@ -58,7 +63,7 @@ if __name__ == '__main__':
         if alg[0] in args.shoosen_algorithms:
             algorithms.append(alg)
 
-    measures = ["quality", "time", "effectiveness"]
+    measures = sorted(["quality", "time", "effectiveness"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"    
     results = {}
@@ -88,7 +93,7 @@ if __name__ == '__main__':
         inst = instance.Instance(filename = data_dir+instance_name+".dat")
         print "Instance: " + instance_name
         for alg in algorithms:
-            results[alg[0]][instance_name] = {}
+            results[alg[0]][(instance_name, len(inst))] = {}
             print "\tAlgorithm: " + alg[0]
             n = 10        
             stats = []
@@ -98,9 +103,9 @@ if __name__ == '__main__':
             best_result = max(stats, key = lambda t: t[1])
             result_quality =  optimal_solutions_values[instance_name] / best_result[1] * 100.0
             
-            results[alg[0]][instance_name]["quality"] = result_quality
-            results[alg[0]][instance_name]["time"] = fastest[0]
-            results[alg[0]][instance_name]["effectiveness"] = result_quality / fastest[0]
+            results[alg[0]][(instance_name, len(inst))]["quality"] = result_quality
+            results[alg[0]][(instance_name, len(inst))]["time"] = fastest[0]
+            results[alg[0]][(instance_name, len(inst))]["effectiveness"] = result_quality / fastest[0]
             
             print "\t\tBest time: " + str(fastest[0])
             print "\t\tResult quality: " + str(result_quality)
