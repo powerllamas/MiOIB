@@ -5,6 +5,7 @@ import unittest
 from instance import Instance
 from heuristic import Heuristic
 from solution import Solution
+from local_search import LocalSearch
 
 
 class Test_heuristic(unittest.TestCase):
@@ -53,6 +54,27 @@ class Test_heuristic(unittest.TestCase):
         expected = Solution((0, 2, 1))
         actual = self.h.solve(self.i)
         self.assertTupleEqual(actual.sequence, expected.sequence)
+
+
+class TestLocalSearch(unittest.TestCase):
+
+    def setUp(self):
+        self.flow = [
+                [0, 1, 2],
+                [4, 0, 5],
+                [7, 2, 0]]
+        self.distance = [
+                [0, 5, 2],
+                [1, 0, 1],
+                [6, 2, 0]]
+        self.i = Instance(None, self.distance, self.flow)
+        self.ls = LocalSearch()
+        self.startpoint = Solution((0, 1, 2))
+
+    def test_solve_with_startpoint(self):
+        expected = (2, 1, 0)
+        actual = self.ls.solve(self.i, self.startpoint).sequence
+        self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
     unittest.main()
