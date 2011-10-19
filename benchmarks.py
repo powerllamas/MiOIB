@@ -116,7 +116,7 @@ if __name__ == '__main__':
             if alg[0] == "heuristic":
                 n = 100
             elif alg[0] == "random":
-                n = 100000
+                n = 5000000
             else:
                 n = 10               
             
