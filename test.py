@@ -71,9 +71,14 @@ class TestLocalSearch(unittest.TestCase):
         self.ls = LocalSearch()
         self.startpoint = Solution((0, 1, 2))
 
-    def test_solve_with_startpoint(self):
+    def test_solve_steepest_with_startpoint(self):
         expected = (2, 1, 0)
         actual = self.ls.solve(self.i, self.startpoint).sequence
+        self.assertEqual(expected, actual)
+
+    def test_solve_greedy_with_startpoint(self):
+        expected = (2, 1, 0)
+        actual = self.ls.solve(self.i, self.startpoint, greedy=True).sequence
         self.assertEqual(expected, actual)
 
 if __name__ == '__main__':
