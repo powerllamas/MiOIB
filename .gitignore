@@ -1,2 +1,4 @@
 *.pyc
 *.bak
+*.dat
+*.sln
