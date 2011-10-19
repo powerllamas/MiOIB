@@ -151,19 +151,20 @@ f = ""
 cd "results"
 set terminal pdf
 set xlabel "instance"
+set xrange [0:9]
 
 set output "effectivenes.pdf"
 set ylabel "Effectiveness"
-plot for [f in "Random.dat Heuristic.dat"] f using 1:3:xticlabels(2) with linespoints title f   
+plot for [f in "Random.dat Heuristic.dat"] f using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "quality.pdf"
 set ylabel "Quality"
-plot for [f in "Random.dat Heuristic.dat"] f using 1:4:xticlabels(2) with linespoints title f   
+plot "Random.dat" using 1:5:6:xticlabels(2) lt rgb "blue" with yerrorlines title "Random", "Heuristic.dat" using 1:5:6:xticlabels(2) lt rgb "red" with yerrorlines title "Heuristic"
 unset output
 
 set output "time.pdf"
 set ylabel "Time"
-plot for [f in "Random.dat Heuristic.dat"] f using 1:5:xticlabels(2) with linespoints title f   
+plot for [f in "Random.dat Heuristic.dat"] f using 1:6:xticlabels(2) with linespoints title f   
 unset output
 #    EOF
