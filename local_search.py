@@ -6,22 +6,20 @@ from evaluator import Evaluator
 
 class LocalSearch(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, greedy=False):
+        self.select_step = self._steepest
+        if greedy:
+            self.select_step = self._greedy
 
-    def solve(self, instance, startpoint=None, greedy=False):
+    def solve(self, instance, startpoint=None):
         if startpoint is None:
             startpoint = Random().solve(instance)
 
         e = Evaluator(instance)
         current = (startpoint, e.evaluate(startpoint))
 
-        select_step = self._steepest
-        if greedy:
-            select_step = self._greedy
-
         while True:
-            next_step = select_step(e, current)
+            next_step = self.select_step(e, current)
             if not next_step:
                 break
             else:
