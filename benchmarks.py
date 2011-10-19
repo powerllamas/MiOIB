@@ -1,5 +1,4 @@
 ﻿import time
-import timeit
 import os
 import re
 import argparse
@@ -9,35 +8,43 @@ import evaluator
 import instance
 import heuristic
 import random_solver
+import local_search
 
-def compute(inst, algo, n):
+def compute(inst, algo, n, max_time):
     results = []
     start = time.clock()
     for i in range(n):
         results.append(algo.solve(inst))
+        elapsed = (time.clock()-start)
+        if elapsed >= max_time:
+            break
     stop = time.clock()
-    elasped = (stop-start)
-    mean_time = elasped / float(n) 
+    elapsed = (stop-start)
+    mean_time = elapsed  / float(len(results)) 
         
-    return mean_time, results
+    return elapsed, mean_time, results
     
 def mean(data):
     return sum(data) / len(data)
     
 def sd(data, mean):
-    return math.sqrt(sum([math.pow(x - mean, 2) for x in data])/(len(data) - 1))    
+    return math.sqrt(sum([math.pow(x - mean, 2) for x in data])/(len(data) ))    
 
-def print_results(results, measure_names):
+def write_results(results, measure_names):
     for alg, instances in results.iteritems():
         result_filepath = results_dir + alg + ".dat"
-        result_file = open(result_filepath, "a")
+        result_file = open(result_filepath, "w")
+        result_file.write("N Instance")
+        for measure in sorted(measure_names):
+            result_file.write(" " + measure)
+        result_file.write("\n")
         counter = 0
         for instance in sorted(instances, key=lambda i:i[1]):            
             counter+=1#instance[1]
             result_file.write(str(counter)+" ")
             result_file.write(instance[0])
             measures = instances[instance]
-            for measure in measure_names:
+            for measure in sorted(measure_names):
                 value = measures[measure]
                 result_file.write(" "+str(value))
             result_file.write("\n")
@@ -63,57 +70,73 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     algorithms = []
-    all_algorithms = [("heuristic", heuristic.Heuristic()), ("random", random_solver.Random()), ("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch())]
+    all_algorithms = [("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch()), ("heuristic", heuristic.Heuristic()), ("random", random_solver.Random())]
 
     for alg in all_algorithms:
         if alg[0] in args.shoosen_algorithms:
             algorithms.append(alg)
 
-    measures = sorted(["quality", "time", "effectiveness", "quality_sd", "best_quality", "worst_quality"])
+    measures = sorted(["quality", "time", "effectiveness", "quality_sd", "best_quality"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"    
     results = {}
 
     for alg in algorithms:
         results[alg[0]] = {}
-        result_filepath = results_dir + alg[0] + ".dat"
-        result_file = open(result_filepath, "w")
-        result_file.write("N Instance")
-        for measure in measures:
-            result_file.write(" " + measure)
-        result_file.write("\n")
-        result_file.close()
 
     ls = os.walk(data_dir)
     instance_names = []
     for dirpath, dirnames, filenames in ls:
         instance_names += [re.sub(r"\.dat", "", file) for file in filenames if re.search(r"\.dat", file)]
         
+    instances = sorted(
+                        [(instance_name, instance.Instance(filename = data_dir+instance_name+".dat")) 
+                         for instance_name in instance_names],
+                         key=lambda i:len(i[1]))
+        
     optimal_solutions_values = {}
     for instance_name in instance_names:
         with open(data_dir+instance_name+".sln") as f:
             value = int(f.readline().split()[1])
             optimal_solutions_values[instance_name] = value
-               
-    for instance_name in instance_names:    
-        inst = instance.Instance(filename = data_dir+instance_name+".dat")
-        eval = evaluator.Evaluator(inst)  
+
+    n = 10        
+    max_time = 180      
+    elapsed = 0    
+    for instance_tuple in instances:    
+        inst = instance_tuple[1]
+        instance_name = instance_tuple[0]
+        eval_ = evaluator.Evaluator(inst)  
         print "Instance: " + instance_name
         for alg in algorithms:
             results[alg[0]][(instance_name, len(inst))] = {}
             print "\tAlgorithm: " + alg[0]
-            n = 10        
-            mean_time, solutions = compute(inst, alg[1], n)                
+            
+            
+            if alg[0] == "heuristic":
+                n = 100
+            elif alg[0] == "random":
+                n = 100000
+            else:
+                n = 10               
+            
+            if alg[0] in ["greedy", "steepest"]:
+                max_time = 180
+            
+            elapsed, mean_time, solutions = compute(inst, alg[1], n, max_time)                
+            print "\t\ttime: "+str(elapsed)
+            if alg[0] in ["greedy", "steepest"]:
+                max_time = elapsed*1.001
 
-            solutions_performance = [eval.evaluate(solution) for solution in solutions]
+            solutions_performance = [eval_.evaluate(solution) for solution in solutions]
             solutions_quality =  [optimal_solutions_values[instance_name] / solution_performance * 100.0
                                 for solution_performance in solutions_performance]
 
-            mean_result = mean(solutions_performance)
+            #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
-            worst_result = max(solutions_performance)
+            #worst_result = max(solutions_performance)
             best_quality = optimal_solutions_values[instance_name] / best_result * 100.0
-            worst_quality = optimal_solutions_values[instance_name] / worst_result * 100.0
+            #worst_quality = optimal_solutions_values[instance_name] / worst_result * 100.0
             mean_quality = mean(solutions_quality)
             quality_sd = sd(solutions_quality, mean_quality)
             
@@ -122,12 +145,13 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["effectiveness"] = mean_quality / mean_time
             results[alg[0]][(instance_name, len(inst))]["quality_sd"] = quality_sd
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
-            results[alg[0]][(instance_name, len(inst))]["worst_quality"] = best_quality
+            #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
             
             print "\t\tMean Time: " + str(mean_time)
             print "\t\tMean result quality: " + str(mean_quality)
-            print "\t\tMean result: " + str(mean_result)
+            print "\t\tBest result quality: " + str(best_quality)
+            #print "\t\tMean result: " + str(mean_result)
+            print "\t\tMean effectiveness: " + str(mean_quality / mean_time)
             print "\t\tQuality SD: " + str(quality_sd)
-            
-            
-    print_results(results, measures)
+                        
+            write_results(results, measures)
