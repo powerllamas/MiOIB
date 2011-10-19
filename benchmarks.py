@@ -63,7 +63,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     algorithms = []
-    all_algorithms = [("heuristic", heuristic.Heuristic()), ("random", random_solver.Random())]
+    all_algorithms = [("heuristic", heuristic.Heuristic()), ("random", random_solver.Random()), ("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch())]
 
     for alg in all_algorithms:
         if alg[0] in args.shoosen_algorithms:
