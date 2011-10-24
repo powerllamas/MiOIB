@@ -1,3 +1,8 @@
 *.pyc
 *.bak
 *.sln
+latex/*.log
+latex/*.aux
+latex/*.out
+latex/*.pdf
+results/*.pdf
