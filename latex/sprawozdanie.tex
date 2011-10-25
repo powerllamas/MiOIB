@@ -20,22 +20,43 @@
 	QAP (Quadratic Assignement Problem) jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory W("wydziały") i L("lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości o: $ L \times L \rightarrow \mathbb{R} $ oraz przepływów p: $ W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z W do elementów z B , która minimalizuje funkcję:
 	$$\sum_{a,b \in W}o(a,b)\times p(f(a),f(b))$$
 	Życiowa interpretacja QAP jest następująca: w pewnej firmie jest n wydziałów, ich zbiór oznaczymy przez W oraz n lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez L. Znane są odległości między lokalizacjami (funkcja o) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja p). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję f) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
-	
+
 	Zastosowania QAP:
 	\begin{itemize}
 		\item{projektowanie układów elektronicznych}
-		\item{rozmieszczanie fabryk, centrów dystrybucji itp.} 
+		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
-	
+
 	\subsection{Użyty operator sąsiedztwa}
 	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie m-tego wydziału na k-tym miejscu permutacji przypisuje go do k-tej lokalizacji.
 	Użyty operator sąsiedztwa to 2-opt, czyli sąsiednie rozwiązanie powstaje przez zamianę miejsc 2 elementów w permutacji stanowaiącej reprezentację rozwiązania.
 
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
+		W celu zbadania algorytmów Local Search zaimplementowano algorymy Greedy, Steepest oraz w celach porównawczych algorytm losowy i prostą heurystykę. Na rysunku \ref{gif:time} pokazano porównanie czasu działania algorytmów dla różnych instancji QAP.
+		\begin{figure}
+			\includegraphics[scale=0.75]{../results/time}
+			\caption{Porównanie czasu działania algorytmów dla różnych instancji QAP\label{fig:time}}
+		\end{figure}
+
+		\begin{figure}
+			\includegraphics[scale=0.75]{../results/quality}
+			\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:quality}}
+		\end{figure}
+
+	 	\begin{figure}
+			\includegraphics[scale=0.75]{../results/best_quality}
+			\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:best_quality}}
+		\end{figure}
+
+		\begin{figure}
+			\includegraphics[scale=0.75]{../results/effectivenes}
+			\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP\label{fig:effectivenes}}
+		\end{figure}
+
+
 	\subsection{Szczegółowa analiza algorytmu GS}
 	\subsection{Ocena podobieństwa rozwiązań}
-
 \section{Podsumowanie}
 	\subsection{Wnioski}
 	\subsection{Trudności na jakie napotkano}
