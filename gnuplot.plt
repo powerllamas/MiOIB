@@ -152,7 +152,7 @@ cd "results"
 set terminal pdf
 set xlabel "instance"
 set xrange [0:9]
-files = "Random.dat Heuristic.dat greedy.dat steepest.dat"
+files = "random.dat heuristic.dat greedy.dat steepest.dat"
 
 set output "effectivenes.pdf"
 set ylabel "Effectiveness"
@@ -176,5 +176,26 @@ unset output
 set output "time.pdf"
 set ylabel "Time"
 plot for [f in files] f using 1:7:xticlabels(2) with linespoints title f   
+unset output
+
+set yrange[0:110]
+set xrange[0:110]
+set ylabel "End quality"
+set xlabel "Startpoint quality"
+
+set output "gs_comparision_had16.pdf"
+plot "gs_comparision.had16.dat" using 1:2 title columnheader
+unset output
+
+set output "gs_comparision_had20.pdf"
+plot "gs_comparision.had20.dat" using 1:2 title columnheader
+unset output
+
+set output "gs_comparision_chr12a.pdf"
+plot "gs_comparision.chr12a.dat" using 1:2 title columnheader
+unset output
+
+set output "gs_comparision_esc16a.pdf"
+plot "gs_comparision.esc16a.dat" using 1:2 title columnheader
 unset output
 #    EOF

@@ -9,12 +9,19 @@ import instance
 import heuristic
 import random_solver
 import local_search
+from random_solver import Random
 
-def compute(inst, algo, n, max_time):
+def compute(inst, alg, n, max_time):
     results = []
+    startpoints = []
     start = time.clock()
     for i in range(n):
-        results.append(algo.solve(inst))
+        if alg[0] == "greedy":
+            startpoint = Random().solve(inst)
+            startpoints.append(startpoint)
+            results.append(alg[1].solve(inst, startpoint))
+        else:
+            results.append(alg[1].solve(inst))
         elapsed = (time.clock()-start)
         if elapsed >= max_time:
             break
@@ -22,7 +29,7 @@ def compute(inst, algo, n, max_time):
     elapsed = (stop-start)
     mean_time = elapsed  / float(len(results)) 
         
-    return elapsed, mean_time, results
+    return elapsed, mean_time, results, startpoints
     
 def mean(data):
     return sum(data) / len(data)
@@ -49,7 +56,16 @@ def write_results(results, measure_names):
                 result_file.write(" "+str(value))
             result_file.write("\n")
         result_file.close()
-    
+
+def write_gs_comparision(gs_comparision):
+    for instance, qualities in gs_comparision.items():
+        result_filepath = results_dir + "gs_comparision."+instance+".dat"    
+        with open(result_filepath, "w") as f:
+            f.write("Startpoint\tSolution\n")
+            for start_quality, solution_quality in qualities:
+                f.write(str(start_quality)+"\t"+str(solution_quality)+"\n")
+        f.close()
+        
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(
@@ -58,10 +74,10 @@ if __name__ == '__main__':
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
-    parser.add_argument('-R', '--random', action='append_const', dest='shoosen_algorithms', const='random', help='Turns on random algorithm')
-    parser.add_argument('-H', '--heuristic', action='append_const', dest='shoosen_algorithms', const='heuristic', help='Turns on heuristic algorithm')
-    parser.add_argument('-G', '--greedy', action='append_const', dest='shoosen_algorithms', const='greedy', help='Turns on greedy algorithm')
-    parser.add_argument('-S', '--steepest', action='append_const', dest='shoosen_algorithms', const='steepest', help='Turns on steepest algorithm')
+    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms', const='random', help='Turns on random algorithm')
+    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms', const='heuristic', help='Turns on heuristic algorithm')
+    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms', const='greedy', help='Turns on greedy algorithm')
+    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms', const='steepest', help='Turns on steepest algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
@@ -73,16 +89,18 @@ if __name__ == '__main__':
     all_algorithms = [("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch()), ("heuristic", heuristic.Heuristic()), ("random", random_solver.Random())]
 
     for alg in all_algorithms:
-        if alg[0] in args.shoosen_algorithms:
+        if alg[0] in args.choosen_algorithms:
             algorithms.append(alg)
 
     measures = sorted(["quality", "time", "effectiveness", "quality_sd", "best_quality"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"    
     results = {}
-
+    gs_comparision = {}
+    
     for alg in algorithms:
         results[alg[0]] = {}
+
 
     ls = os.walk(data_dir)
     instance_names = []
@@ -107,7 +125,7 @@ if __name__ == '__main__':
         inst = instance_tuple[1]
         instance_name = instance_tuple[0]
         eval_ = evaluator.Evaluator(inst)  
-        print "Instance: " + instance_name
+        print "Instance: " + instance_name       
         for alg in algorithms:
             results[alg[0]][(instance_name, len(inst))] = {}
             print "\tAlgorithm: " + alg[0]
@@ -117,13 +135,15 @@ if __name__ == '__main__':
                 n = 100
             elif alg[0] == "random":
                 n = 5000000
+            elif alg[0] == "greedy":
+                n = 100
             else:
-                n = 10               
+                n = 10              
             
             if alg[0] in ["greedy", "steepest"]:
                 max_time = 180
             
-            elapsed, mean_time, solutions = compute(inst, alg[1], n, max_time)                
+            elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)                
             print "\t\ttime: "+str(elapsed)
             if alg[0] in ["greedy", "steepest"]:
                 max_time = elapsed*1.001
@@ -132,6 +152,11 @@ if __name__ == '__main__':
             solutions_quality =  [optimal_solutions_values[instance_name] / solution_performance * 100.0
                                 for solution_performance in solutions_performance]
 
+            if(alg[0] == "greedy"):
+                startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
+                startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
+                                for startpoint_performance in startpoints_performance]
+                                
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
             #worst_result = max(solutions_performance)
@@ -153,5 +178,9 @@ if __name__ == '__main__':
             #print "\t\tMean result: " + str(mean_result)
             print "\t\tMean effectiveness: " + str(mean_quality / mean_time)
             print "\t\tQuality SD: " + str(quality_sd)
-                        
+                                                
             write_results(results, measures)
+                        
+            if(alg[0] == "greedy"):
+                gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
+        write_gs_comparision(gs_comparision)
