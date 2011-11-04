@@ -154,16 +154,17 @@ set xlabel "instance"
 set xrange [0:9]
 files = "random.dat heuristic.dat greedy.dat steepest.dat"
 
-set output "effectivenes.pdf"
-set ylabel "Effectiveness"
-plot for [f in files] f using 1:4:xticlabels(2) with linespoints title f   
-unset output
-
 set output "quality.pdf"
 set ylabel "Quality"
+set key right bottom
 #plot "Random.dat" using 1:5:6:xticlabels(2) lt rgb "blue" with yerrorlines title "Random", "Heuristic.dat" using 1:5:6:xticlabels(2) lt rgb "red" with yerrorlines title "Heuristic"
 #plot "Random.dat" using 1:5:6:xticlabels(2) lt rgb "blue" with yerrorlines title "Random", "Heuristic.dat" using 1:5:6:xticlabels(2) lt rgb "red" with yerrorlines title "Heuristic"
 plot for [f in files] f using 1:5:6:xticlabels(2) with yerrorlines title f  
+unset output
+
+set output "effectivenes.pdf"
+set ylabel "Effectiveness"
+plot for [f in files] f using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "best_quality.pdf"
@@ -175,6 +176,7 @@ unset output
 
 set output "time.pdf"
 set ylabel "Time"
+set key left top
 plot for [f in files] f using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
@@ -183,19 +185,47 @@ set xrange[0:110]
 set ylabel "End quality"
 set xlabel "Startpoint quality"
 
-set output "gs_comparision_had16.pdf"
-plot "gs_comparision.had16.dat" using 1:2 title columnheader
-unset output
+set output "gs_comparision.nug30.pdf"
+ plot "gs_comparision.nug30.dat" using 1:2 title columnheader
+ unset output
 
-set output "gs_comparision_had20.pdf"
-plot "gs_comparision.had20.dat" using 1:2 title columnheader
-unset output
+set output "gs_comparision.kra30a.pdf"
+ plot "gs_comparision.kra30a.dat" using 1:2 title columnheader
+ unset output
 
-set output "gs_comparision_chr12a.pdf"
-plot "gs_comparision.chr12a.dat" using 1:2 title columnheader
-unset output
+set output "gs_comparision.nug24.pdf"
+ plot "gs_comparision.nug24.dat" using 1:2 title columnheader
+ unset output
 
-set output "gs_comparision_esc16a.pdf"
-plot "gs_comparision.esc16a.dat" using 1:2 title columnheader
-unset output
+set output "gs_comparision.had16.pdf"
+ plot "gs_comparision.had16.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.had20.pdf"
+ plot "gs_comparision.had20.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.bur26a.pdf"
+ plot "gs_comparision.bur26a.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.rou20.pdf"
+ plot "gs_comparision.rou20.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.lipa40a.pdf"
+ plot "gs_comparision.lipa40a.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.esc16a.pdf"
+ plot "gs_comparision.esc16a.dat" using 1:2 title columnheader
+ unset output
+
+set output "gs_comparision.chr12a.pdf"
+ plot "gs_comparision.chr12a.dat" using 1:2 title columnheader
+ unset output
+
+
+
+
 #    EOF

@@ -13,7 +13,6 @@ class Instance(object):
         else:
             with open(filename) as f:
                 self.nr_of_rows = int(f.readline())
-                print "Instance size: {0}".format(self.nr_of_rows)
                 f.readline()
                 for i in xrange(self.nr_of_rows):
                     row = f.readline().split()

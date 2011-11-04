@@ -135,7 +135,7 @@ if __name__ == '__main__':
             
             
             if alg[0] == "heuristic":
-                n = 100
+                n = 1000
             elif alg[0] == "random":
                 n = 5000000
             elif alg[0] == "greedy":
@@ -159,6 +159,8 @@ if __name__ == '__main__':
                 startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
                 startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
                                 for startpoint_performance in startpoints_performance]
+                solutions_performance = solutions_performance[:10]
+                solutions_quality = solutions_quality[:10]
                                 
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
