@@ -60,7 +60,7 @@ def write_results(results, measure_names):
 def write_gs_comparision(gs_comparision):
     gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
-        gnuplot_file.write("set output gs_comparision.{0}.dat\n plot gs_comparision.{0}.dat using 1:2 title columnheader\n unset output\n\n".format(instance))    
+        gnuplot_file.write("set output \"gs_comparision.{0}.pdf\"\n plot \"gs_comparision.{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))    
         result_filepath = results_dir + "gs_comparision."+instance+".dat"    
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
