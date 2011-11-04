@@ -6,3 +6,6 @@ latex/*.aux
 latex/*.out
 latex/*.pdf
 results/*.pdf
+alldata/
+DATA2/
+nppBackup/
