@@ -58,13 +58,16 @@ def write_results(results, measure_names):
         result_file.close()
 
 def write_gs_comparision(gs_comparision):
+    gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
+        gnuplot_file.write("set output \"gs_comparision.{0}.pdf\"\n plot \"gs_comparision.{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))    
         result_filepath = results_dir + "gs_comparision."+instance+".dat"    
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
             for start_quality, solution_quality in qualities:
                 f.write(str(start_quality)+"\t"+str(solution_quality)+"\n")
         f.close()
+    gnuplot_file.close()
         
 if __name__ == '__main__':
     
@@ -132,7 +135,7 @@ if __name__ == '__main__':
             
             
             if alg[0] == "heuristic":
-                n = 100
+                n = 1000
             elif alg[0] == "random":
                 n = 5000000
             elif alg[0] == "greedy":
@@ -156,6 +159,8 @@ if __name__ == '__main__':
                 startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
                 startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
                                 for startpoint_performance in startpoints_performance]
+                solutions_performance = solutions_performance[:10]
+                solutions_quality = solutions_quality[:10]
                                 
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
