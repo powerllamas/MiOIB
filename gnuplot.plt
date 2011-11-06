@@ -185,45 +185,96 @@ set xrange[0:110]
 set ylabel "End quality"
 set xlabel "Startpoint quality"
 
-set output "gs_comparision.nug30.pdf"
- plot "gs_comparision.nug30.dat" using 1:2 title columnheader
+set output "gs_comparision_nug30.pdf"
+ plot "gs_comparision_nug30.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.kra30a.pdf"
- plot "gs_comparision.kra30a.dat" using 1:2 title columnheader
+set output "gs_comparision_kra30a.pdf"
+ plot "gs_comparision_kra30a.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.nug24.pdf"
- plot "gs_comparision.nug24.dat" using 1:2 title columnheader
+set output "gs_comparision_nug24.pdf"
+ plot "gs_comparision_nug24.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.had16.pdf"
- plot "gs_comparision.had16.dat" using 1:2 title columnheader
+set output "gs_comparision_had16.pdf"
+ plot "gs_comparision_had16.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.had20.pdf"
- plot "gs_comparision.had20.dat" using 1:2 title columnheader
+set output "gs_comparision_had20.pdf"
+ plot "gs_comparision_had20.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.bur26a.pdf"
- plot "gs_comparision.bur26a.dat" using 1:2 title columnheader
+set output "gs_comparision_bur26a.pdf"
+ plot "gs_comparision_bur26a.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.rou20.pdf"
- plot "gs_comparision.rou20.dat" using 1:2 title columnheader
+set output "gs_comparision_rou20.pdf"
+ plot "gs_comparision_rou20.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.lipa40a.pdf"
- plot "gs_comparision.lipa40a.dat" using 1:2 title columnheader
+set output "gs_comparision_lipa40a.pdf"
+ plot "gs_comparision_lipa40a.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.esc16a.pdf"
- plot "gs_comparision.esc16a.dat" using 1:2 title columnheader
+set output "gs_comparision_esc16a.pdf"
+ plot "gs_comparision_esc16a.dat" using 1:2 title columnheader
  unset output
 
-set output "gs_comparision.chr12a.pdf"
- plot "gs_comparision.chr12a.dat" using 1:2 title columnheader
+set output "gs_comparision_chr12a.pdf"
+ plot "gs_comparision_chr12a.dat" using 1:2 title columnheader
  unset output
+
+
+set key right bottom
+set ylabel "Quality"
+set xlabel "Number of restarts"
+
+set output "multirandom_nug30.pdf"
+ plot "multirandom_nug30.dat" using 1:2 title columnheader, "multirandom_nug30.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_kra30a.pdf"
+ plot "multirandom_kra30a.dat" using 1:2 title columnheader, "multirandom_kra30a.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_nug24.pdf"
+ plot "multirandom_nug24.dat" using 1:2 title columnheader, "multirandom_nug24.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_had16.pdf"
+ plot "multirandom_had16.dat" using 1:2 title columnheader, "multirandom_had16.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_had20.pdf"
+ plot "multirandom_had20.dat" using 1:2 title columnheader, "multirandom_had20.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_bur26a.pdf"
+ plot "multirandom_bur26a.dat" using 1:2 title columnheader, "multirandom_bur26a.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_rou20.pdf"
+ plot "multirandom_rou20.dat" using 1:2 title columnheader, "multirandom_rou20.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_lipa40a.pdf"
+ plot "multirandom_lipa40a.dat" using 1:2 title columnheader, "multirandom_lipa40a.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_esc16a.pdf"
+ plot "multirandom_esc16a.dat" using 1:2 title columnheader, "multirandom_esc16a.dat" using 1:3 title columnheader
+ unset output
+
+set output "multirandom_chr12a.pdf"
+ plot "multirandom_chr12a.dat" using 1:2 title columnheader, "multirandom_chr12a.dat" using 1:3 title columnheader
+ unset output
+
+
+
+
+
+
 
 
 
