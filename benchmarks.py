@@ -27,15 +27,35 @@ def compute(inst, alg, n, max_time):
             break
     stop = time.clock()
     elapsed = (stop-start)
-    mean_time = elapsed  / float(len(results)) 
-        
+    mean_time = elapsed  / float(len(results))
+
     return elapsed, mean_time, results, startpoints
-    
+
 def mean(data):
     return sum(data) / len(data)
-    
+
 def sd(data, mean):
-    return math.sqrt(sum([math.pow(x - mean, 2) for x in data])/(len(data) ))    
+    return math.sqrt(sum([math.pow(x - mean, 2) for x in data])/(len(data) ))
+
+def multi_random_statistics(qualities):
+    bests = []
+    best = 0
+    sum = 0.0
+    means = []
+    for q in qualities:
+        best = q if q > best else best
+        bests.append(best)
+        sum += q
+        means.append(sum / len(bests))
+    return bests, means
+
+def write_multi_random_statistics(bests, means, instance):
+    with open(results_dir+"multi_random."+instance+".dat", "w") as file:
+        file.write("i best mean\n")
+        for i, best_mean in enumerate(zip(bests, means)):
+            best, mean = best_mean
+            file.write("{0} {1} {2}\n".format(i, best, mean))
+        file.close()
 
 def write_results(results, measure_names):
     for alg, instances in results.iteritems():
@@ -46,7 +66,7 @@ def write_results(results, measure_names):
             result_file.write(" " + measure)
         result_file.write("\n")
         counter = 0
-        for instance in sorted(instances, key=lambda i:i[1]):            
+        for instance in sorted(instances, key=lambda i:i[1]):
             counter+=1#instance[1]
             result_file.write(str(counter)+" ")
             result_file.write(instance[0])
@@ -60,17 +80,27 @@ def write_results(results, measure_names):
 def write_gs_comparision(gs_comparision):
     gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
-        gnuplot_file.write("set output \"gs_comparision.{0}.pdf\"\n plot \"gs_comparision.{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))    
-        result_filepath = results_dir + "gs_comparision."+instance+".dat"    
+        gnuplot_file.write("set output \"gs_comparision_{0}.pdf\"\n plot \"gs_comparision_{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))        
+        result_filepath = results_dir + "gs_comparision."+instance+".dat"
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
             for start_quality, solution_quality in qualities:
                 f.write(str(start_quality)+"\t"+str(solution_quality)+"\n")
         f.close()
     gnuplot_file.close()
-        
-if __name__ == '__main__':
+
+def write_gnuplot_multi_random_commands(instances):
+    gnuplot_file = open(results_dir + "gnuplot_multi_random.plt", "w")
+    gnuplot_file.write("set ylabel \"Quality\"\n")
+    gnuplot_file.write("set xlabel \"Number of restarts\"\n\n")
+    gnuplot_file.write("set key right bottom\n\n")
+
+    for instance in gs_comparision:
+        gnuplot_file.write("set output \"multirandom_{0}.pdf\"\n plot \"multirandom_{0}.dat\" using 1:2 title columnheader, \"multi_random.{0}.dat\" using 1:3 title columnheader with linepoints \n unset output\n\n".format(instance))
+    gnuplot_file.close()
     
+if __name__ == '__main__':
+
     parser = argparse.ArgumentParser(
       formatter_class=argparse.RawDescriptionHelpFormatter,
       description = "Benchmark for optimasation algorithms",
@@ -84,10 +114,10 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
-    
+
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.3')
     args = parser.parse_args()
-    
+
     algorithms = []
     all_algorithms = [("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch()), ("heuristic", heuristic.Heuristic()), ("random", random_solver.Random())]
 
@@ -97,10 +127,10 @@ if __name__ == '__main__':
 
     measures = sorted(["quality", "time", "effectiveness", "quality_sd", "best_quality"])
     data_dir = args.data+"/"
-    results_dir = args.results+"/"    
+    results_dir = args.results+"/"
     results = {}
     gs_comparision = {}
-    
+
     for alg in algorithms:
         results[alg[0]] = {}
 
@@ -109,31 +139,31 @@ if __name__ == '__main__':
     instance_names = []
     for dirpath, dirnames, filenames in ls:
         instance_names += [re.sub(r"\.dat", "", file) for file in filenames if re.search(r"\.dat", file)]
-        
+
     instances = sorted(
-                        [(instance_name, instance.Instance(filename = data_dir+instance_name+".dat")) 
+                        [(instance_name, instance.Instance(filename = data_dir+instance_name+".dat"))
                          for instance_name in instance_names],
                          key=lambda i:len(i[1]))
-        
+
     optimal_solutions_values = {}
     for instance_name in instance_names:
         with open(data_dir+instance_name+".sln") as f:
             value = int(f.readline().split()[1])
             optimal_solutions_values[instance_name] = value
 
-    n = 10        
-    max_time = 180      
-    elapsed = 0    
-    for instance_tuple in instances:    
+    n = 10
+    max_time = 180
+    elapsed = 0
+    for instance_tuple in instances:
         inst = instance_tuple[1]
         instance_name = instance_tuple[0]
-        eval_ = evaluator.Evaluator(inst)  
-        print "Instance: " + instance_name       
+        eval_ = evaluator.Evaluator(inst)
+        print "Instance: " + instance_name
         for alg in algorithms:
             results[alg[0]][(instance_name, len(inst))] = {}
             print "\tAlgorithm: " + alg[0]
-            
-            
+
+
             if alg[0] == "heuristic":
                 n = 1000
             elif alg[0] == "random":
@@ -141,12 +171,12 @@ if __name__ == '__main__':
             elif alg[0] == "greedy":
                 n = 100
             else:
-                n = 10              
-            
+                n = 10
+
             if alg[0] in ["greedy", "steepest"]:
                 max_time = 180
-            
-            elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)                
+
+            elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)
             print "\t\ttime: "+str(elapsed)
             if alg[0] in ["greedy", "steepest"]:
                 max_time = elapsed*1.001
@@ -159,9 +189,12 @@ if __name__ == '__main__':
                 startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
                 startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
                                 for startpoint_performance in startpoints_performance]
+                gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
+                bests, means = multi_random_statistics(solutions_quality)
+                write_multi_random_statistics(bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
                 solutions_quality = solutions_quality[:10]
-                                
+
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
             #worst_result = max(solutions_performance)
@@ -169,23 +202,22 @@ if __name__ == '__main__':
             #worst_quality = optimal_solutions_values[instance_name] / worst_result * 100.0
             mean_quality = mean(solutions_quality)
             quality_sd = sd(solutions_quality, mean_quality)
-            
-            results[alg[0]][(instance_name, len(inst))]["quality"] = mean_quality            
+
+            results[alg[0]][(instance_name, len(inst))]["quality"] = mean_quality
             results[alg[0]][(instance_name, len(inst))]["time"] = mean_time
             results[alg[0]][(instance_name, len(inst))]["effectiveness"] = mean_quality / mean_time
             results[alg[0]][(instance_name, len(inst))]["quality_sd"] = quality_sd
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
             #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
-            
+
             print "\t\tMean Time: " + str(mean_time)
             print "\t\tMean result quality: " + str(mean_quality)
             print "\t\tBest result quality: " + str(best_quality)
             #print "\t\tMean result: " + str(mean_result)
             print "\t\tMean effectiveness: " + str(mean_quality / mean_time)
             print "\t\tQuality SD: " + str(quality_sd)
-                                                
+
             write_results(results, measures)
-                        
-            if(alg[0] == "greedy"):
-                gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
+
         write_gs_comparision(gs_comparision)
+        write_gnuplot_multi_random_commands(gs_comparision)
