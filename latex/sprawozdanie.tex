@@ -21,45 +21,45 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 
 \section{Wstęp}
 	\subsection{Opis problemu}
-	QAP (Quadratic Assignement Problem) jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory W("wydziały") i L("lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości o: $ L \times L \rightarrow \mathbb{R} $ oraz przepływów p: $ W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z W do elementów z B , która minimalizuje funkcję:
+	\emph{QAP (Quadratic Assignement Problem)} jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory $W$(,,wydziały") i $L$(,,lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości $o:  L \times L \rightarrow \mathbb{R} $ oraz przepływów $p: W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z $W$ do elementów z $B$ , która minimalizuje funkcję:
 	$$\sum_{a,b \in W}o(a,b)\times p(f(a),f(b))$$
-	QAP może modelować następującą sytuację: w pewnej firmie jest n wydziałów, ich zbiór oznaczymy przez W oraz n lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez L. Znane są odległości między lokalizacjami (funkcja o) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja p). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję f) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
+	QAP może modelować następującą sytuację: w pewnej firmie jest $n$ wydziałów, ich zbiór oznaczymy przez $W$ oraz $n$ lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez $L$. Znane są odległości między lokalizacjami (funkcja $o$) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja $p$). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję $f$) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
 
-	Zastosowania QAP:
+	Zastosowania \emph{QAP}:
 	\begin{itemize}
 		\item{projektowanie układów elektronicznych}
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	QAP jest problemem NP-trudnym, stąd do jego rozwiązania nadają się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (Local Search): Greedy i Steepest oraz algorytmu losowego (Random Search) i prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w języku Python 2.7. i testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystywany był jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa}
-	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie m-tego wydziału na k-tym miejscu permutacji przypisuje go do k-tej lokalizacji.
-	Użyty operator sąsiedztwa to 2-opt, czyli sąsiednie rozwiązanie powstaje przez zamianę miejsc 2 elementów w permutacji stanowaiącej reprezentację rozwiązania.
+	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
+	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
-		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji QAP.
+		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/time}
+				\includegraphics[scale=1.0]{../results/time}
 				\caption{Porównanie czasu działania algorytmów dla różnych instancji QAP\label{fig:time}}
 			\end{figure}
 
-		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP.
+		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/quality}
+				\includegraphics[scale=1.0]{../results/quality}
 				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:quality}}
 			\end{figure}
 
-		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP.
+		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 		 	\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/best_quality}
+				\includegraphics[scale=1.0]{../results/best_quality}
 				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:best_quality}}
 			\end{figure}
 
-		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP.
+		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/effectivenes}
+				\includegraphics[scale=1.0]{../results/effectivenes}
 				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP\label{fig:effectivenes}}
 			\end{figure}
 
@@ -67,10 +67,21 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 	\subsection{Szczegółowa analiza algorytmu GS}
 
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
-			Na rysunkach \ref{fig:gs.nug24} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
+			Na rysunkach \ref{fig:gs.nug24}, \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
+			
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/gs_comparision_nug24.pdf}
+				\includegraphics[scale=1.0]{../results/gs_comparision_nug24.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24}}				
+			\end{figure}
+			
+			\begin{figure}[h]
+				\includegraphics[scale=1.0]{../results/gs_comparision_chr12a.pdf}
+				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{chr12a}\label{fig:gs.chr12a}}				
+			\end{figure}
+			
+			\begin{figure}[h]
+				\includegraphics[scale=1.0]{../results/gs_comparision_esc16a.pdf}
+				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{esc16a}\label{fig:gs.esc16a}}				
 			\end{figure}
 		
 		\subsubsection{Wpływ liczby restartów na jakość rozwiązania}		
@@ -84,17 +95,16 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 				\item{algorytm osiąga porządaną jakość}
 				\item{Po wykonaniu algorytmu n razy koszt jego wykonywania przekracza zyski z poprawy jakości (jeśli można je mierzyć tą samą miarą}
 			\end{itemize}
-
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/multirandom_kra30a.pdf}
+				\includegraphics[scale=1.0]{../results/multirandom_kra30a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{kra30a}\label{fig:mr.kra30a}}		
 			\end{figure}
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/multirandom_bur26a.pdf}
+				\includegraphics[scale=1.0]{../results/multirandom_bur26a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{bur26a}\label{fig:mr.bur26a}}		
 			\end{figure}
 			\begin{figure}[h]
-				\includegraphics[scale=0.75]{../results/multirandom_chr12a.pdf}
+				\includegraphics[scale=1.0]{../results/multirandom_chr12a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{chr12a}\label{fig:mr.chr12a}}		
 			\end{figure}
 
