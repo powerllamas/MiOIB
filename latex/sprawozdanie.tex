@@ -41,25 +41,25 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 	\subsection{Porównanie działania algorytmów}
 		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/time}
+				\includegraphics[scale=0.90]{../results/time}
 				\caption{Porównanie czasu działania algorytmów dla różnych instancji QAP\label{fig:time}}
 			\end{figure}
 
 		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/quality}
+				\includegraphics[scale=0.90]{../results/quality}
 				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:quality}}
 			\end{figure}
 
 		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 		 	\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/best_quality}
+				\includegraphics[scale=0.90]{../results/best_quality}
 				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:best_quality}}
 			\end{figure}
 
 		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/effectivenes}
+				\includegraphics[scale=0.90]{../results/effectivenes}
 				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP\label{fig:effectivenes}}
 			\end{figure}
 
@@ -69,18 +69,20 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
 			Na rysunkach \ref{fig:gs.nug24}, \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
 			
+			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24}. Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięc różnych optimum lokalnych (pod względem oceny), świadczy o~tym wrażenie umiejscowienia punktów danych na ,,siatce".
+			
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/gs_comparision_nug24.pdf}
+				\includegraphics[scale=0.90]{../results/gs_comparision_nug24.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24}}				
 			\end{figure}
 			
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/gs_comparision_chr12a.pdf}
+				\includegraphics[scale=0.90]{../results/gs_comparision_chr12a.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{chr12a}\label{fig:gs.chr12a}}				
 			\end{figure}
 			
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/gs_comparision_esc16a.pdf}
+				\includegraphics[scale=0.90]{../results/gs_comparision_esc16a.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{esc16a}\label{fig:gs.esc16a}}				
 			\end{figure}
 		
@@ -96,15 +98,15 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 				\item{Po wykonaniu algorytmu n razy koszt jego wykonywania przekracza zyski z poprawy jakości (jeśli można je mierzyć tą samą miarą}
 			\end{itemize}
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/multirandom_kra30a.pdf}
+				\includegraphics[scale=0.90]{../results/multirandom_kra30a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{kra30a}\label{fig:mr.kra30a}}		
 			\end{figure}
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/multirandom_bur26a.pdf}
+				\includegraphics[scale=0.90]{../results/multirandom_bur26a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{bur26a}\label{fig:mr.bur26a}}		
 			\end{figure}
 			\begin{figure}[h]
-				\includegraphics[scale=1.0]{../results/multirandom_chr12a.pdf}
+				\includegraphics[scale=0.90]{../results/multirandom_chr12a.pdf}
 				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{chr12a}\label{fig:mr.chr12a}}		
 			\end{figure}
 
