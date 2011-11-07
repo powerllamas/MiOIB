@@ -38,3 +38,7 @@ set output "gs_comparision_chr12a.pdf"
  plot "gs_comparision_chr12a.dat" using 1:2 title columnheader
  unset output
 
+set output "gs_comparision_tai40b.pdf"
+ plot "gs_comparision_tai40b.dat" using 1:2 title columnheader
+ unset output
+
