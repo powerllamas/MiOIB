@@ -21,43 +21,43 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 
 \section{Wstęp}
 	\subsection{Opis problemu}
-	QAP (Quadratic Assignement Problem) jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory W("wydziały") i L("lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości o: $ L \times L \rightarrow \mathbb{R} $ oraz przepływów p: $ W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z W do elementów z B , która minimalizuje funkcję:
+	\emph{QAP (Quadratic Assignement Problem)} jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory $W$(,,wydziały") i $L$(,,lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości $o:  L \times L \rightarrow \mathbb{R} $ oraz przepływów $p: W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z $W$ do elementów z $B$ , która minimalizuje funkcję:
 	$$\sum_{a,b \in W}o(a,b)\times p(f(a),f(b))$$
-	QAP może modelować następującą sytuację: w pewnej firmie jest n wydziałów, ich zbiór oznaczymy przez W oraz n lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez L. Znane są odległości między lokalizacjami (funkcja o) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja p). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję f) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
+	QAP może modelować następującą sytuację: w pewnej firmie jest $n$ wydziałów, ich zbiór oznaczymy przez $W$ oraz $n$ lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez $L$. Znane są odległości między lokalizacjami (funkcja $o$) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja $p$). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję $f$) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
 
-	Zastosowania QAP:
+	Zastosowania \emph{QAP}:
 	\begin{itemize}
 		\item{projektowanie układów elektronicznych}
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	QAP jest problemem NP-trudnym, stąd do jego rozwiązania nadają się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (Local Search): Greedy i Steepest oraz algorytmu losowego (Random Search) i prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w języku Python 2.7. i testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystywany był jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa}
-	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie m-tego wydziału na k-tym miejscu permutacji przypisuje go do k-tej lokalizacji.
-	Użyty operator sąsiedztwa to 2-opt, czyli sąsiednie rozwiązanie powstaje przez zamianę miejsc 2 elementów w permutacji stanowaiącej reprezentację rozwiązania.
+	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
+	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
-		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji QAP.
+		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/time}
 				\caption{Porównanie czasu działania algorytmów dla różnych instancji QAP\label{fig:time}}
 			\end{figure}
 
-		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP.
+		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/quality}
 				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:quality}}
 			\end{figure}
 
-		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP.
+		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 		 	\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/best_quality}
 				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:best_quality}}
 			\end{figure}
 
-		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP.
+		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/effectivenes}
 				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP\label{fig:effectivenes}}
@@ -85,7 +85,7 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 			\end{figure}
 		
 		\subsubsection{Wpływ liczby restartów na jakość rozwiązania}		
-			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys. \ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys. \ref{fig:mr.chr12a}  . Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\% co umożliwiło poprawę rozwiązania aż do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys. \ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych, w których algorytm "utyka". W przypadku pozostałych instancji krajobraz musi być bardziej "gładki" lub "wyższy". W pierwszym przypadku algorytm niezależnie od pkt. startowego znajduje optimum globalne  - stąd brak różnic w kolejnych uruchomieniach - tak jest w przypadku instancji \emph{bur26a} co widać na rys. \ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna - tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
+			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys. \ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys. \ref{fig:mr.chr12a}. Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\% co umożliwiło poprawę rozwiązania aż do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys. \ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w~którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych, w których algorytm "utyka". W przypadku pozostałych instancji krajobraz musi być bardziej "gładki" lub "wyższy". W pierwszym przypadku algorytm niezależnie od pkt. startowego znajduje optimum globalne -- stąd brak różnic w kolejnych uruchomieniach -- tak jest w przypadku instancji \emph{bur26a} co widać na rys. \ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i~stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna -- tak jest w przypadku instancji \emph{kra30a}, co widać na rys \ref{fig:mr.kra30a}.
 
 			\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/multirandom_kra30a.pdf}
