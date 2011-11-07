@@ -37,7 +37,7 @@ def mean(data):
 def sd(data, mean):
     return math.sqrt(sum([math.pow(x - mean, 2) for x in data])/(len(data) ))
 
-def multi_random_statistics(qualities):
+def multirandom_statistics(qualities):
     bests = []
     best = 0
     sum = 0.0
@@ -45,16 +45,16 @@ def multi_random_statistics(qualities):
     for q in qualities:
         best = q if q > best else best
         bests.append(best)
-        sum += q
-        means.append(sum / len(bests))
+        sum += float(q)
+        means.append(sum / float(len(bests)))
     return bests, means
 
-def write_multi_random_statistics(bests, means, instance):
-    with open(results_dir+"multi_random."+instance+".dat", "w") as file:
-        file.write("i best mean\n")
-        for i, best_mean in enumerate(zip(bests, means)):
-            best, mean = best_mean
-            file.write("{0} {1} {2}\n".format(i, best, mean))
+def write_multirandom_statistics(currents, bests, means, instance):
+    with open(results_dir+"multirandom_"+instance+".dat", "w") as file:
+        file.write("i current best mean\n")
+        for i, current_best_mean in enumerate(zip(currents, bests, means)):
+            current, best, mean = current_best_mean
+            file.write("{0} {1} {2} {3}\n".format(i, current, best, mean))
         file.close()
 
 def write_results(results, measure_names):
@@ -81,7 +81,7 @@ def write_gs_comparision(gs_comparision):
     gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
         gnuplot_file.write("set output \"gs_comparision_{0}.pdf\"\n plot \"gs_comparision_{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))        
-        result_filepath = results_dir + "gs_comparision."+instance+".dat"
+        result_filepath = results_dir + "gs_comparision_"+instance+".dat"
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
             for start_quality, solution_quality in qualities:
@@ -89,14 +89,14 @@ def write_gs_comparision(gs_comparision):
         f.close()
     gnuplot_file.close()
 
-def write_gnuplot_multi_random_commands(instances):
-    gnuplot_file = open(results_dir + "gnuplot_multi_random.plt", "w")
+def write_gnuplot_multirandom_commands(instances):
+    gnuplot_file = open(results_dir + "gnuplot_multirandom.plt", "w")
     gnuplot_file.write("set ylabel \"Quality\"\n")
     gnuplot_file.write("set xlabel \"Number of restarts\"\n\n")
     gnuplot_file.write("set key right bottom\n\n")
 
     for instance in gs_comparision:
-        gnuplot_file.write("set output \"multirandom_{0}.pdf\"\n plot \"multirandom_{0}.dat\" using 1:2 title columnheader, \"multi_random.{0}.dat\" using 1:3 title columnheader with linepoints \n unset output\n\n".format(instance))
+        gnuplot_file.write("set output \"multirandom_{0}.pdf\"\n plot \"multirandom_{0}.dat\" using 1:2 title columnheader, \"multirandom_{0}.dat\" using 1:3 title columnheader, \"multirandom_{0}.dat\" using 1:4 title columnheader with linespoints \n unset output\n\n".format(instance))
     gnuplot_file.close()
     
 if __name__ == '__main__':
@@ -182,7 +182,7 @@ if __name__ == '__main__':
                 max_time = elapsed*1.001
 
             solutions_performance = [eval_.evaluate(solution) for solution in solutions]
-            solutions_quality =  [optimal_solutions_values[instance_name] / solution_performance * 100.0
+            solutions_quality =  [float(optimal_solutions_values[instance_name]) / solution_performance * 100.0
                                 for solution_performance in solutions_performance]
 
             if(alg[0] == "greedy"):
@@ -190,8 +190,8 @@ if __name__ == '__main__':
                 startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
                                 for startpoint_performance in startpoints_performance]
                 gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
-                bests, means = multi_random_statistics(solutions_quality)
-                write_multi_random_statistics(bests, means, instance_name)
+                bests, means = multirandom_statistics(solutions_quality)
+                write_multirandom_statistics(solutions_quality, bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
                 solutions_quality = solutions_quality[:10]
 
@@ -220,4 +220,4 @@ if __name__ == '__main__':
             write_results(results, measures)
 
         write_gs_comparision(gs_comparision)
-        write_gnuplot_multi_random_commands(gs_comparision)
+        write_gnuplot_multirandom_commands(gs_comparision)
