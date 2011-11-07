@@ -81,7 +81,7 @@ def write_gs_comparision(gs_comparision):
     gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
         gnuplot_file.write("set output \"gs_comparision_{0}.pdf\"\n plot \"gs_comparision_{0}.dat\" using 1:2 title columnheader\n unset output\n\n".format(instance))        
-        result_filepath = results_dir + "gs_comparision."+instance+".dat"
+        result_filepath = results_dir + "gs_comparision_"+instance+".dat"
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
             for start_quality, solution_quality in qualities:
@@ -181,15 +181,15 @@ if __name__ == '__main__':
             if alg[0] in ["greedy", "steepest"]:
                 max_time = elapsed*1.001
 
-            solutions_performance = [eval_.evaluate(solution) for solution in solutions]
-            solutions_quality =  [optimal_solutions_values[instance_name] / solution_performance * 100.0
+            solutions_performance = [float(eval_.evaluate(solution)) for solution in solutions]
+            solutions_quality =  [(float(optimal_solutions_values[instance_name]) / solution_performance) * 100.0
                                 for solution_performance in solutions_performance]
 
             if(alg[0] == "greedy"):
-                startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
-                startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
+                startpoints_performance = [float(eval_.evaluate(startpoint)) for startpoint in startpoints]
+                startpoints_quality =  [(float(optimal_solutions_values[instance_name]) / startpoint_performance) * 100.0
                                 for startpoint_performance in startpoints_performance]
-                gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
+                gs_comparision[instance_name] = zip(startpoints_quality, solutions_quality)
                 bests, means = multi_random_statistics(solutions_quality)
                 write_multi_random_statistics(bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
