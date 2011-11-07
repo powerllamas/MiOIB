@@ -189,7 +189,7 @@ if __name__ == '__main__':
                 startpoints_performance = [eval_.evaluate(startpoint) for startpoint in startpoints]
                 startpoints_quality =  [optimal_solutions_values[instance_name] / startpoint_performance * 100.0
                                 for startpoint_performance in startpoints_performance]
-                gs_comparision[instance_name] = zip(solutions_quality, startpoints_quality)
+                gs_comparision[instance_name] = zip( startpoints_quality, solutions_quality)
                 bests, means = multirandom_statistics(solutions_quality)
                 write_multirandom_statistics(solutions_quality, bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]

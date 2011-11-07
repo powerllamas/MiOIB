@@ -230,10 +230,6 @@ set key right bottom
 set ylabel "Quality"
 set xlabel "Number of restarts"
 
-set output "multirandom_nug30.pdf"
- plot "multirandom_nug30.dat" using 1:2 title columnheader, "multirandom_nug30.dat" using 1:3 title columnheader, "multirandom_nug30.dat" using 1:4 title columnheader with linespoints 
- unset output
-
 set output "multirandom_kra30a.pdf"
  plot "multirandom_kra30a.dat" using 1:2 title columnheader, "multirandom_kra30a.dat" using 1:3 title columnheader, "multirandom_kra30a.dat" using 1:4 title columnheader with linespoints
  unset output
@@ -270,7 +266,9 @@ set output "multirandom_chr12a.pdf"
  plot "multirandom_chr12a.dat" using 1:2 title columnheader, "multirandom_chr12a.dat" using 1:3 title columnheader, "multirandom_chr12a.dat" using 1:4 title columnheader with linespoints
  unset output
 
-
+set output "multirandom_nug30.pdf"
+ plot "multirandom_nug30.dat" using 1:2 title columnheader, "multirandom_nug30.dat" using 1:3 title columnheader, "multirandom_nug30.dat" using 1:4 title columnheader with linespoints 
+ unset output
 
 
 
