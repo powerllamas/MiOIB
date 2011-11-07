@@ -69,6 +69,8 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
 			Na rysunkach \ref{fig:gs.nug24}, \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
 			
+			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24}. Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięc różnych optimum lokalnych (pod względem oceny), świadczy o~tym wrażenie umiejscowienia punktów danych na ,,siatce".
+			
 			\begin{figure}[h]
 				\includegraphics[scale=1.0]{../results/gs_comparision_nug24.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24}}				
