@@ -65,13 +65,30 @@ QAP jest jednym z podstawowych problemów kombinatorycznych i jest on NP-trudny.
 
 
 	\subsection{Szczegółowa analiza algorytmu GS}
+
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
 			Na rysunkach \ref{fig:gs.nug24} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
 			\begin{figure}[h]
 				\includegraphics[scale=0.75]{../results/gs_comparision_nug24.pdf}
-				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}}
-				\label{fig:gs.nug24}
+				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24}}				
 			\end{figure}
+		
+		\subsubsection{Wpływ liczby restartów na jakość rozwiązania}		
+			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys. \ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys. \ref{fig:mr.chr12a}  . Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\% co umożliwiło poprawę rozwiązania aż do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys. \ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych, w których algorytm "utyka". W przypadku pozostałych instancji krajobraz musi być bardziej "gładki" lub "wyższy". W pierwszym przypadku algorytm niezależnie od pkt. startowego znajduje optimum globalne  - stąd brak różnic w kolejnych uruchomieniach - tak jest w przypadku instancji \emph{bur26a} co widać na rys. \ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna - tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
+
+			\begin{figure}[h]
+				\includegraphics[scale=0.75]{../results/multirandom_kra30a.pdf}
+				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{kra30a}\label{fig:mr.kra30a}}		
+			\end{figure}
+			\begin{figure}[h]
+				\includegraphics[scale=0.75]{../results/multirandom_bur26a.pdf}
+				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{bur26a}\label{fig:mr.bur26a}}		
+			\end{figure}
+			\begin{figure}[h]
+				\includegraphics[scale=0.75]{../results/multirandom_chr12a.pdf}
+				\caption{Zależność jakości średniego i najlepszego ze znalezionych dotychczas rozwiązań od liczby restartów w multi-random -- instancja \emph{chr12a}\label{fig:mr.chr12a}}		
+			\end{figure}
+
 	\subsection{Ocena podobieństwa rozwiązań}
 \section{Podsumowanie}
 	\subsection{Wnioski}
