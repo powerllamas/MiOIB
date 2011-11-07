@@ -14,3 +14,5 @@ class Random(object):
         sequence = list(xrange(len(instance)))
         random.shuffle(sequence)
         return Solution(tuple(sequence))
+
+random.seed(0)
