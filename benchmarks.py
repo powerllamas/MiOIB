@@ -237,8 +237,8 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
             results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = mean_binary_similarity            
             results[alg[0]][(instance_name, len(inst))]["z-partial_similarity"] = mean_partial_similarity
-            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity_sd"] = mean_binary_similarity_sd
-            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity_sd"] = mean_partial_similarity_sd
+            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity_sd"] = binary_similarity_sd
+            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity_sd"] = partial_similarity_sd
             #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
 
             print "\t\tMean Time: " + str(mean_time)
