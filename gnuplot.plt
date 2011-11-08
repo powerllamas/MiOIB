@@ -151,7 +151,11 @@ f = ""
 cd "results"
 set terminal pdf
 set xlabel "instance"
-set xrange [0:9]
+set xrange [0:12]
+set xtics rotate by 45 
+set xtics out
+set xtics offset -0.75,-1
+set key box
 files = "random.dat heuristic.dat greedy.dat steepest.dat"
 
 set output "quality.pdf"
@@ -176,25 +180,28 @@ set key left top
 plot for [f in files] f using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
+set key left top box
+set yrange [0:1]
+
 set output "binary_similarity.pdf"
 set ylabel "Binary Similarity"
-set key left top
-set yrange [0:1]
 plot for [f in "greedy steepest"] f.".dat" using 1:8:xticlabels(2) title f   
 unset output
 
 set output "partial_similarity.pdf"
 set ylabel "Partial Similarity"
-set key left top
-set yrange [0:1]
 plot for [f in "greedy steepest"] f.".dat" using 1:9:xticlabels(2) title f   
 unset output
+
+set xtics norotate
+set xtics nooffset 
 unset yrange
 
-set yrange[0:110]
-set xrange[0:110]
+set yrange[0:105]
+set xrange[0:105]
 set ylabel "End quality"
 set xlabel "Startpoint quality"
+set nokey
 
 set output "gs_comparision_nug30.pdf"
  plot "gs_comparision_nug30.dat" using 1:2 notitle
