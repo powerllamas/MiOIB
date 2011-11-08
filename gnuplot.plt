@@ -242,6 +242,10 @@ set output "gs_comparision_esc16a.pdf"
 set output "gs_comparision_chr12a.pdf"
  plot "gs_comparision_chr12a.dat" using 1:2 notitle
  unset output
+ 
+set output "gs_comparision_tai40b.pdf"
+ plot "gs_comparision_tai40b.dat" using 1:2 notitle
+ unset output
 
 set key right bottom
 set ylabel "Quality"
@@ -287,5 +291,8 @@ set output "multirandom_nug30.pdf"
  plot "multirandom_nug30.dat" using 1:2 title columnheader, "multirandom_nug30.dat" using 1:3 title columnheader, "multirandom_nug30.dat" using 1:4 title columnheader with linespoints 
  unset output
 
-
+set output "multirandom_tai40b.pdf"
+ plot "multirandom_tai40b.dat" using 1:2 title columnheader, "multirandom_tai40b.dat" using 1:3 title columnheader, "multirandom_tai40b.dat" using 1:4 title columnheader with linespoints 
+ unset output
+ 
 #    EOF
