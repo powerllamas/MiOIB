@@ -152,9 +152,7 @@ cd "results"
 set terminal pdf
 set xlabel "instance"
 set xrange [0:9]
-#files = "random heuristic greedy steepest"
-files = "steepest"
-
+files = "random heuristic greedy steepest"
 
 set output "quality.pdf"
 set ylabel "Quality"

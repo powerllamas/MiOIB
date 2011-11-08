@@ -240,6 +240,6 @@ if __name__ == '__main__':
             print "\t\tMean effectiveness: " + str(mean_quality / mean_time)
             print "\t\tQuality SD: " + str(quality_sd)
 
-            write_results(results, measures)
+        write_results(results, measures)
 
 
