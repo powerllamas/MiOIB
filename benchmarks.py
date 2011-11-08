@@ -101,16 +101,14 @@ def write_gnuplot_multirandom_commands(instances):
     gnuplot_file.close()
     
 def solutions_similarity(solutions, instance):
-    partial_similarity_sum = 0
-    binary_similarity_sum = 0
+    partial_similarities = []
+    binary_similarities = []
     for s1 in solutions:
         for s2 in solutions:
-            partial_similarity_sum += similarity.partial_solution_similarity(s1, s2, instance)
-            binary_similarity_sum += similarity.binary_solution_similarity(s1, s2)
+            partial_similarities.append(similarity.partial_solution_similarity(s1, s2, instance))
+            binary_similarities.append(similarity.binary_solution_similarity(s1, s2))
             
-    binary_similarity_sum = binary_similarity_sum / (len(solutions) * len(solutions))
-    partial_similarity_sum = partial_similarity_sum / (len(solutions) * len(solutions))
-    return binary_similarity_sum, partial_similarity_sum
+    return partial_similarities, binary_similarities
     
     
 if __name__ == '__main__':
@@ -144,7 +142,7 @@ if __name__ == '__main__':
             algorithms.append(alg)
 
     measures = sorted(["quality", "time", "effectiveness", "quality_sd", 
-                       "best_quality", "z-binary_similarity", "z-partial_similarity"])
+                       "best_quality", "z-binary_similarity", "z-partial_similarity", "z-binary_similarity_sd", "z-partial_similarity_sd"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"
     results = {}
@@ -186,11 +184,12 @@ if __name__ == '__main__':
             if alg[0] == "heuristic":
                 n = 1000
             elif alg[0] == "random":
-                n = 5000000
+                #n = 5000000
+                n = 100
             elif alg[0] == "greedy":
                 n = 100
             else:
-                n = 10
+                n = 100
 
             if alg[0] in ["greedy", "steepest"]:
                 max_time = 180
@@ -203,7 +202,14 @@ if __name__ == '__main__':
             solutions_performance = [float(eval_.evaluate(solution)) for solution in solutions]
             solutions_quality =  [(float(optimal_solutions_values[instance_name]) / solution_performance) * 100.0
                                 for solution_performance in solutions_performance]
-
+                                
+            binary_similarities = solutions_similarity(solutions, inst)[0]
+            partial_similarities = solutions_similarity(solutions, inst)[1]
+            mean_binary_similarity = mean(binary_similarities)
+            mean_partial_similarity = mean(partial_similarities)
+            binary_similarity_sd = sd(binary_similarities, mean_binary_similarity)
+            partial_similarity_sd = sd(partial_similarities, mean_partial_similarity)
+            
             if(alg[0] == "greedy"):
                 startpoints_performance = [float(eval_.evaluate(startpoint)) for startpoint in startpoints]
                 startpoints_quality =  [(float(optimal_solutions_values[instance_name]) / startpoint_performance) * 100.0
@@ -229,8 +235,10 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["effectiveness"] = mean_quality / mean_time
             results[alg[0]][(instance_name, len(inst))]["quality_sd"] = quality_sd
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
-            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = solutions_similarity(solutions, inst)[0]
-            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity"] = solutions_similarity(solutions, inst)[1]
+            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = mean_binary_similarity            
+            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity"] = mean_partial_similarity
+            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity_sd"] = mean_binary_similarity_sd
+            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity_sd"] = mean_partial_similarity_sd
             #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
 
             print "\t\tMean Time: " + str(mean_time)
