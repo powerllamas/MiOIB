@@ -210,7 +210,7 @@ if __name__ == '__main__':
                                 for startpoint_performance in startpoints_performance]
                 gs_comparision[instance_name] = zip(startpoints_quality, solutions_quality)
                 bests, means = multirandom_statistics(solutions_quality)
-                write_multirandom_statistics(bests, means, instance_name)
+                write_multirandom_statistics(solutions_quality, bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
                 solutions_quality = solutions_quality[:10]                          
                 write_gs_comparision(gs_comparision)

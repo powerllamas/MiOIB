@@ -13,7 +13,7 @@ def ratio_similarity(vector1, vector2):
     similarity = 0.0
     for v1, v2 in zip(vector1, vector2):        
         if min(v1, v2) == 0:
-            ratio = 0
+            ratio = 0.0
         else:
             ratio = float(min(v1, v2)) / float(max(v1,v2))
         similarity += ratio
