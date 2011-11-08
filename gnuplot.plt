@@ -185,12 +185,12 @@ set yrange [0:1]
 
 set output "binary_similarity.pdf"
 set ylabel "Binary Similarity"
-plot for [f in "greedy steepest"] f.".dat" using 1:8:xticlabels(2) title f   
+plot for [f in "greedy steepest random"] f.".dat" using 1:8:9:xticlabels(2) with yerrorlines title f   
 unset output
 
 set output "partial_similarity.pdf"
 set ylabel "Partial Similarity"
-plot for [f in "greedy steepest"] f.".dat" using 1:9:xticlabels(2) title f   
+plot for [f in "greedy steepest random"] f.".dat" using 1:10:11:xticlabels(2) with yerrorlines title f   
 unset output
 
 set xtics norotate
