@@ -152,28 +152,28 @@ cd "results"
 set terminal pdf
 set xlabel "instance"
 set xrange [0:9]
-files = "random heuristic greedy steepest"
+files = "random.dat heuristic.dat greedy.dat steepest.dat"
 
 set output "quality.pdf"
 set ylabel "Quality"
 set key right bottom
-plot for [f in files] f.".dat" using 1:5:6:xticlabels(2) with yerrorlines title f  
+plot for [f in files] f using 1:5:6:xticlabels(2) with yerrorlines title f  
 unset output
 
 set output "effectivenes.pdf"
 set ylabel "Effectiveness"
-plot for [f in files] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
+plot for [f in files] f using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "best_quality.pdf"
 set ylabel "Best Quality"
-plot for [f in files] f.".dat" using 1:3:xticlabels(2) with linespoints title f  
+plot for [f in files] f using 1:3:xticlabels(2) with linespoints title f  
 unset output
 
 set output "time.pdf"
 set ylabel "Time"
 set key left top
-plot for [f in files] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
+plot for [f in files] f using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
 set output "binary_similarity.pdf"
@@ -236,7 +236,6 @@ set output "gs_comparision_chr12a.pdf"
  plot "gs_comparision_chr12a.dat" using 1:2 notitle
  unset output
 
-
 set key right bottom
 set ylabel "Quality"
 set xlabel "Number of restarts"
@@ -280,13 +279,6 @@ set output "multirandom_chr12a.pdf"
 set output "multirandom_nug30.pdf"
  plot "multirandom_nug30.dat" using 1:2 title columnheader, "multirandom_nug30.dat" using 1:3 title columnheader, "multirandom_nug30.dat" using 1:4 title columnheader with linespoints 
  unset output
-
-
-
-
-
-
-
 
 
 #    EOF
