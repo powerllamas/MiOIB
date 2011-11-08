@@ -9,6 +9,7 @@ import instance
 import heuristic
 import random_solver
 import local_search
+import similarity
 from random_solver import Random
 
 def compute(inst, alg, n, max_time):
@@ -99,6 +100,19 @@ def write_gnuplot_multirandom_commands(instances):
         gnuplot_file.write("set output \"multirandom_{0}.pdf\"\n plot \"multirandom_{0}.dat\" using 1:2 title columnheader, \"multirandom_{0}.dat\" using 1:3 title columnheader, \"multirandom_{0}.dat\" using 1:4 title columnheader with linespoints \n unset output\n\n".format(instance))
     gnuplot_file.close()
     
+def solutions_similarity(solutions, instance):
+    partial_similarity_sum = 0
+    binary_similarity_sum = 0
+    for s1 in solutions:
+        for s2 in solutions:
+            partial_similarity_sum += similarity.partial_solution_similarity(s1, s2, instance)
+            binary_similarity_sum += similarity.binary_solution_similarity(s1, s2)
+            
+    binary_similarity_sum = binary_similarity_sum / (len(solutions) * len(solutions))
+    partial_similarity_sum = partial_similarity_sum / (len(solutions) * len(solutions))
+    return binary_similarity_sum, partial_similarity_sum
+    
+    
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -107,10 +121,14 @@ if __name__ == '__main__':
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
-    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms', const='random', help='Turns on random algorithm')
-    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms', const='heuristic', help='Turns on heuristic algorithm')
-    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms', const='greedy', help='Turns on greedy algorithm')
-    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms', const='steepest', help='Turns on steepest algorithm')
+    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms', 
+                        const='random', help='Turns on random algorithm')
+    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms', 
+                        const='heuristic', help='Turns on heuristic algorithm')
+    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms', 
+                        const='greedy', help='Turns on greedy algorithm')
+    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms', 
+                        const='steepest', help='Turns on steepest algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
@@ -125,7 +143,8 @@ if __name__ == '__main__':
         if alg[0] in args.choosen_algorithms:
             algorithms.append(alg)
 
-    measures = sorted(["quality", "time", "effectiveness", "quality_sd", "best_quality"])
+    measures = sorted(["quality", "time", "effectiveness", "quality_sd", 
+                       "best_quality", "z-binary_similarity", "z-partial_similarity"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"
     results = {}
@@ -193,8 +212,10 @@ if __name__ == '__main__':
                 bests, means = multirandom_statistics(solutions_quality)
                 write_multirandom_statistics(bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
-                solutions_quality = solutions_quality[:10]
-
+                solutions_quality = solutions_quality[:10]                          
+                write_gs_comparision(gs_comparision)
+                write_gnuplot_multirandom_commands(gs_comparision)
+                
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
             #worst_result = max(solutions_performance)
@@ -208,6 +229,8 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["effectiveness"] = mean_quality / mean_time
             results[alg[0]][(instance_name, len(inst))]["quality_sd"] = quality_sd
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
+            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = solutions_similarity(solutions, inst)[0]
+            results[alg[0]][(instance_name, len(inst))]["z-partial_similarity"] = solutions_similarity(solutions, inst)[1]
             #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
 
             print "\t\tMean Time: " + str(mean_time)
@@ -219,5 +242,4 @@ if __name__ == '__main__':
 
             write_results(results, measures)
 
-        write_gs_comparision(gs_comparision)
-        write_gnuplot_multirandom_commands(gs_comparision)
+
