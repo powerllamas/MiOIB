@@ -12,7 +12,10 @@ def binary_similarity(sequence1, sequence2):
 def ratio_similarity(vector1, vector2):
     similarity = 0.0
     for v1, v2 in zip(vector1, vector2):        
-        ratio = float(min(v1, v2)) / float(max(v1,v2))
+        if min(v1, v2) == 0:
+            ratio = 0
+        else:
+            ratio = float(min(v1, v2)) / float(max(v1,v2))
         similarity += ratio
     similarity = similarity / float(len(vector1))
     return similarity
