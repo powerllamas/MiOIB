@@ -81,7 +81,7 @@ def write_results(results, measure_names):
 def write_gs_comparision(gs_comparision):
     gnuplot_file = open(results_dir + "gnuplot_gs.plt", "w")
     for instance, qualities in gs_comparision.items():
-        gnuplot_file.write("set output \"gs_comparision_{0}.pdf\"\n plot \"gs_comparision_{0}.dat\" using 1:2 notitle\n unset output\n\n".format(instance))        
+        gnuplot_file.write("set output \"gs_comparision_{0}.pdf\"\n plot \"gs_comparision_{0}.dat\" using 1:2 notitle\n unset output\n\n".format(instance))
         result_filepath = results_dir + "gs_comparision_"+instance+".dat"
         with open(result_filepath, "w") as f:
             f.write("Startpoint\tSolution\n")
@@ -99,18 +99,17 @@ def write_gnuplot_multirandom_commands(instances):
     for instance in gs_comparision:
         gnuplot_file.write("set output \"multirandom_{0}.pdf\"\n plot \"multirandom_{0}.dat\" using 1:2 title columnheader, \"multirandom_{0}.dat\" using 1:3 title columnheader, \"multirandom_{0}.dat\" using 1:4 title columnheader with linespoints \n unset output\n\n".format(instance))
     gnuplot_file.close()
-    
+
 def solutions_similarity(solutions, instance):
-    partial_similarities = []
     binary_similarities = []
+    partial_similarities = []
     for s1 in solutions:
         for s2 in solutions:
-            partial_similarities.append(similarity.partial_solution_similarity(s1, s2, instance))
             binary_similarities.append(similarity.binary_solution_similarity(s1, s2))
-            
-    return partial_similarities, binary_similarities
-    
-    
+            partial_similarities.append(similarity.partial_solution_similarity(s1, s2, instance))
+    return binary_similarities, partial_similarities
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -119,13 +118,13 @@ if __name__ == '__main__':
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
-    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms', 
+    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms',
                         const='random', help='Turns on random algorithm')
-    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms', 
+    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms',
                         const='heuristic', help='Turns on heuristic algorithm')
-    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms', 
+    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms',
                         const='greedy', help='Turns on greedy algorithm')
-    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms', 
+    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms',
                         const='steepest', help='Turns on steepest algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
@@ -141,7 +140,7 @@ if __name__ == '__main__':
         if alg[0] in args.choosen_algorithms:
             algorithms.append(alg)
 
-    measures = sorted(["quality", "time", "effectiveness", "quality_sd", 
+    measures = sorted(["quality", "time", "effectiveness", "quality_sd",
                        "best_quality", "z-binary_similarity", "z-partial_similarity", "z-binary_similarity_sd", "z-partial_similarity_sd"])
     data_dir = args.data+"/"
     results_dir = args.results+"/"
@@ -184,12 +183,11 @@ if __name__ == '__main__':
             if alg[0] == "heuristic":
                 n = 1000
             elif alg[0] == "random":
-                #n = 5000000
-                n = 100
+                n = 5000000                
             elif alg[0] == "greedy":
                 n = 100
             else:
-                n = 100
+                n = 10
 
             if alg[0] in ["greedy", "steepest"]:
                 max_time = 180
@@ -202,14 +200,15 @@ if __name__ == '__main__':
             solutions_performance = [float(eval_.evaluate(solution)) for solution in solutions]
             solutions_quality =  [(float(optimal_solutions_values[instance_name]) / solution_performance) * 100.0
                                 for solution_performance in solutions_performance]
-                                
-            binary_similarities = solutions_similarity(solutions, inst)[0]
-            partial_similarities = solutions_similarity(solutions, inst)[1]
+
+            solutions_similarities = solutions_similarity(solutions[:10], inst)
+            binary_similarities = solutions_similarities[0]
+            partial_similarities = solutions_similarities[1]
             mean_binary_similarity = mean(binary_similarities)
             mean_partial_similarity = mean(partial_similarities)
             binary_similarity_sd = sd(binary_similarities, mean_binary_similarity)
             partial_similarity_sd = sd(partial_similarities, mean_partial_similarity)
-            
+
             if(alg[0] == "greedy"):
                 startpoints_performance = [float(eval_.evaluate(startpoint)) for startpoint in startpoints]
                 startpoints_quality =  [(float(optimal_solutions_values[instance_name]) / startpoint_performance) * 100.0
@@ -218,10 +217,10 @@ if __name__ == '__main__':
                 bests, means = multirandom_statistics(solutions_quality)
                 write_multirandom_statistics(solutions_quality, bests, means, instance_name)
                 solutions_performance = solutions_performance[:10]
-                solutions_quality = solutions_quality[:10]                          
+                solutions_quality = solutions_quality[:10]
                 write_gs_comparision(gs_comparision)
                 write_gnuplot_multirandom_commands(gs_comparision)
-                
+
             #mean_result = mean(solutions_performance)
             best_result = min(solutions_performance)
             #worst_result = max(solutions_performance)
@@ -235,7 +234,7 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["effectiveness"] = mean_quality / mean_time
             results[alg[0]][(instance_name, len(inst))]["quality_sd"] = quality_sd
             results[alg[0]][(instance_name, len(inst))]["best_quality"] = best_quality
-            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = mean_binary_similarity            
+            results[alg[0]][(instance_name, len(inst))]["z-binary_similarity"] = mean_binary_similarity
             results[alg[0]][(instance_name, len(inst))]["z-partial_similarity"] = mean_partial_similarity
             results[alg[0]][(instance_name, len(inst))]["z-binary_similarity_sd"] = binary_similarity_sd
             results[alg[0]][(instance_name, len(inst))]["z-partial_similarity_sd"] = partial_similarity_sd
