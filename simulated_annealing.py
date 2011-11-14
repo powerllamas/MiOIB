@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from math import exp
+from math import exp, log
 from random import random
 
 from random_solver import Random as R
@@ -24,6 +24,7 @@ class SimulatedAnnealing(object):
         e = E(instance)
         current = (startpoint, e.evaluate(startpoint))
         temperature = self.temperature0
+        self.iteration = 0
 
         while not self._stop():
             for step in xrange(self.steps):
@@ -38,13 +39,29 @@ class SimulatedAnnealing(object):
                         if p > random():
                             current = (n, n_score)
                             break
+                self.iteration += 1
+                temperature = self._calc_temp(step)
         return current[0]
 
     def _guess_temp(self, instance):
-        pass
+        samples = 1000
+        prob = 0.95
+        r = R(instance)
+        e = E(instance)
+        diffs = 0
+        for i in xrange(samples):
+            solution = r.solve(instance)
+            neighbour = solution.neighbours().next()
+            diff = abs(e.evaluate(solution) - e.evaluate(neighbour))
+            diffs += diff
+        df = float(diffs) / float(samples)
+        return df / log(prob)
 
     def _guess_steps(self, instance):
         pass
 
     def _stop(self):
         return False
+
+    def _calc_temp(self, step):
+        return 1.0
