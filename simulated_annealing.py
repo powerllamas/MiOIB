@@ -49,7 +49,7 @@ class SimulatedAnnealing(object):
                             break
                 self.iteration += 1
                 temperature = self._calc_temp(step)
-        return current[0]
+        return best[0]
 
     def _guess_temp(self, instance):
         samples = 1000
