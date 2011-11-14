@@ -6,6 +6,9 @@ from evaluator import Evaluator as E
 
 class TabuSearch(object):
 
+    class TabuList(object):
+        pass
+
     def __init__(self):
         pass
 
@@ -13,4 +16,8 @@ class TabuSearch(object):
         if startpoint is None:
             startpoint = R().solve(instance)
 
-        return startpoint
+        e = E(instance)
+        current = (startpoint, e.evaluate(startpoint))
+        best = current
+
+        return best[0]
