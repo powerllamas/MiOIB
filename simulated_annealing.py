@@ -9,9 +9,10 @@ from evaluator import Evaluator as E
 
 class SimulatedAnnealing(object):
 
-    def __init__(self, temperature0=None, steps=None):
+    def __init__(self, temperature0=None, steps=None, alpha=0.9):
         self.temperature0 = temperature0
         self.steps = steps
+        self.alpha = alpha
 
     def solve(self, instance, startpoint=None):
         if startpoint is None:
@@ -48,7 +49,7 @@ class SimulatedAnnealing(object):
                                 best = current
                             break
                 self.iteration += 1
-                temperature = self._calc_temp(step)
+                temperature = self._calc_temp(temperature)
         return best[0]
 
     def _guess_temp(self, instance):
@@ -76,6 +77,5 @@ class SimulatedAnnealing(object):
             self._stop_counter = 0
         return self._stop_counter > 10
 
-    def _calc_temp(self, step):
-        diff = float(self.temperature0) / self.steps
-        return diff * (self.steps - step)
+    def _calc_temp(self, temp):
+        return temp * self.alpha
