@@ -24,7 +24,7 @@ class TabuSearch(object):
         self._stop_best = current[1]
 
         while not self._stop(current):
-            for move in current[0].moves():
+            for move in self._get_filtered_moves(current[0].moves()):
                 new_solution = current[0].make_move(move)
                 move_score = e.evaluate(new_solution)
                 if move_score > current[1]:
@@ -50,3 +50,6 @@ class TabuSearch(object):
             self.tabu[k] -= 1
             if self.tabu[k] <= 0:
                 del self.tabu[k]
+
+    def _get_filtered_moves(self, moves):
+        return (move for move in moves if move not in self.tabu)
