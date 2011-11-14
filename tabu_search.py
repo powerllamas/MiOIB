@@ -46,7 +46,7 @@ class TabuSearch(object):
         return self._stop_counter > 10
 
     def _decrease_tabu_penalty(self):
-        for k in self.tabu.iterkeys():
+        for k in self.tabu.keys():
             self.tabu[k] -= 1
             if self.tabu[k] <= 0:
                 del self.tabu[k]
