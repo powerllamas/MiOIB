@@ -31,7 +31,7 @@ class SimulatedAnnealing(object):
         best = current
 
         while not self._stop(current):
-            for step in xrange(self.steps):
+            for step in xrange(self.steps + 1):
                 for n in current.neighbours():
                     n_score = e.evaluate(n)
                     if n_score <= current[1]:
@@ -77,4 +77,5 @@ class SimulatedAnnealing(object):
         return self._stop_counter > 10
 
     def _calc_temp(self, step):
-        return 1.0
+        diff = float(self.temperature0) / self.steps
+        return diff * (self.steps - step)
