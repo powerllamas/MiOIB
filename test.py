@@ -113,7 +113,7 @@ class SimilarityTest(unittest.TestCase):
         actual = similarity.binary_solution_similarity(self.s1, self.s2)
         self.assertAlmostEqual(actual, expected)
         
-    def test_partial_solution_similarity_identical(self):
+    def test_partial_solution_similarity_identical1(self):
         expected = 1.0
         actual = similarity.binary_solution_similarity(self.s1, self.s3)
         self.assertEqual(actual, expected)
@@ -123,12 +123,12 @@ class SimilarityTest(unittest.TestCase):
         actual = similarity.ratio_similarity([3, 4, 2], [3, 6, 1])
         self.assertEqual(actual, expected)
         
-    def test_partial_solution_similarity_identical(self):
+    def test_partial_solution_similarity_identical2(self):
         expected = 1.0
         actual = similarity.partial_solution_similarity(self.s1, self.s2, self.i)
         self.assertEqual(actual, expected)
         
-    def test_partial_solution_similarity_identical2(self):
+    def test_partial_solution_similarity_identical3(self):
         expected = 1.0
         actual = similarity.partial_solution_similarity(self.s1, self.s3, self.i2)
         self.assertEqual(actual, expected)
