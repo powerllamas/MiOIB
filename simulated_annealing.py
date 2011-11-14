@@ -28,19 +28,24 @@ class SimulatedAnnealing(object):
         self.iteration = 0
         self._stop_counter = 0
         self._stop_best = current[1]
+        best = current
 
-        while not self._stop():
+        while not self._stop(current):
             for step in xrange(self.steps):
                 for n in current.neighbours():
                     n_score = e.evaluate(n)
                     if n_score <= current[1]:
                         current = (n, n_score)
+                        if current[1] > best[1]:
+                            best = current
                         break
                     else:
                         diff = float(current[0] - n_score)
                         p = exp(diff / temperature)
                         if p > random():
                             current = (n, n_score)
+                            if current[1] > best[1]:
+                                best = current
                             break
                 self.iteration += 1
                 temperature = self._calc_temp(step)
@@ -63,11 +68,11 @@ class SimulatedAnnealing(object):
     def _guess_steps(self, instance):
         pass
 
-    def _stop(self):
-        if self._stop_best > self.current[1]:
+    def _stop(self, current):
+        if self._stop_best > current[1]:
             self._stop_counter += 1
         else:
-            self._stop_best = self.current[1]
+            self._stop_best = current[1]
             self._stop_counter = 0
         return self._stop_counter > 10
 
