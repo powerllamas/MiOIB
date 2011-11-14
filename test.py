@@ -109,6 +109,11 @@ class TestSimulatedAnnealing(unittest.TestCase):
         actual = self.sa._guess_temp(None, prob=0.98, df=1000)
         self.assertAlmostEqual(expected, actual, -1)
 
+    def test_guess_temperature_for_given_instance(self):
+        expected = 3.5
+        actual = self.sa._guess_temp(self.i, prob=0.95)
+        self.assertAlmostEqual(expected, actual, 0)
+
 class SimilarityTest(unittest.TestCase):
     def setUp(self):
         self.s1 = Solution((0,1,2))

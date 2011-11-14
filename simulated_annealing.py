@@ -37,16 +37,15 @@ class SimulatedAnnealing(object):
                     n_score = e.evaluate(n)
                     if n_score <= current[1]:
                         current = (n, n_score)
-                        if current[1] > best[1]:
+                        if current[1] < best[1]:
                             best = current
                         break
                     else:
                         diff = float(current[1] - n_score)
-                        print "{0} {1} {2} {3}".format(diff, temperature, diff / temperature, exp(diff / temperature))
                         p = exp(diff / temperature)
                         if p > random():
                             current = (n, n_score)
-                            if current[1] > best[1]:
+                            if current[1] < best[1]:
                                 best = current
                             break
                 self.iteration += 1
