@@ -169,5 +169,34 @@ class SimilarityTest(unittest.TestCase):
         actual = similarity.partial_solution_similarity(self.s1, self.s2, self.i2)
         self.assertAlmostEqual(actual, expected)
 
+class TestSolution(unittest.TestCase):
+    def setUp(self):
+        self.s = Solution((0, 1, 2))
+
+    def test_move_generation(self):
+        expected = [(0, 1), (0, 2), (1, 2)]
+        actual = list(self.s.moves())
+        self.assertEqual(actual, expected)
+
+    def test_make_move1(self):
+        expected = (1, 0, 2)
+        actual = self.s.make_move((0, 1)).sequence
+        self.assertEqual(actual, expected)
+
+    def test_make_move2(self):
+        expected = (2, 1, 0)
+        actual = self.s.make_move((0, 2)).sequence
+        self.assertEqual(actual, expected)
+
+    def test_make_move3(self):
+        expected = (0, 2, 1)
+        actual = self.s.make_move((1, 2)).sequence
+        self.assertEqual(actual, expected)
+
+    def test_neighbours_generation(self):
+        expected = [(1, 0, 2), (2, 1, 0), (0, 2, 1)]
+        actual = map(lambda s: s.sequence, list(self.s.neighbours()))
+        self.assertEqual(actual, expected)
+
 if __name__ == '__main__':
     unittest.main()

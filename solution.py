@@ -15,6 +15,16 @@ class Solution(object):
             neighbour = Solution(tuple(old))
             yield neighbour
 
+    def moves(self):
+        return (move for move in combinations(self.sequence, 2))
+
+    def make_move(self, move):
+        x, y = move
+        old = list(self.sequence)
+        old[x], old[y] = old[y], old[x]
+        neighbour = Solution(tuple(old))
+        return neighbour
+
     def __str__(self):
         return str(self.sequence)
 
