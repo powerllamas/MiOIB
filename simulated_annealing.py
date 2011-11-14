@@ -32,7 +32,7 @@ class SimulatedAnnealing(object):
         best = current
 
         while not self._stop(current):
-            for step in xrange(self.steps + 1):
+            for step in xrange(self.steps):
                 for n in current.neighbours():
                     n_score = e.evaluate(n)
                     if n_score <= current[1]:
@@ -55,7 +55,7 @@ class SimulatedAnnealing(object):
     def _guess_temp(self, instance):
         samples = 1000
         prob = 0.95
-        r = R(instance)
+        r = R()
         e = E(instance)
         diffs = 0
         for i in xrange(samples):
@@ -67,7 +67,10 @@ class SimulatedAnnealing(object):
         return df / log(prob)
 
     def _guess_steps(self, instance):
-        pass
+        r = R()
+        solution = r.solve(instance)
+        neighbours = list(solution.neighbours())
+        return len(neighbours)
 
     def _stop(self, current):
         if self._stop_best > current[1]:
