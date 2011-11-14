@@ -24,7 +24,10 @@ class SimulatedAnnealing(object):
         e = E(instance)
         current = (startpoint, e.evaluate(startpoint))
         temperature = self.temperature0
+
         self.iteration = 0
+        self._stop_counter = 0
+        self._stop_best = current[1]
 
         while not self._stop():
             for step in xrange(self.steps):
@@ -61,7 +64,12 @@ class SimulatedAnnealing(object):
         pass
 
     def _stop(self):
-        return False
+        if self._stop_best > self.current[1]:
+            self._stop_counter += 1
+        else:
+            self._stop_best = self.current[1]
+            self._stop_counter = 0
+        return self._stop_counter > 10
 
     def _calc_temp(self, step):
         return 1.0
