@@ -7,6 +7,7 @@ from heuristic import Heuristic
 from solution import Solution
 from local_search import LocalSearch
 from simulated_annealing import SimulatedAnnealing
+from tabu_search import TabuSearch
 import similarity
 
 
@@ -113,6 +114,26 @@ class TestSimulatedAnnealing(unittest.TestCase):
         expected = 3.5
         actual = self.sa._guess_temp(self.i, prob=0.95)
         self.assertAlmostEqual(expected, actual, 0)
+
+class TestTabuSearch(unittest.TestCase):
+
+    def setUp(self):
+        self.flow = [
+                [0, 1, 2],
+                [4, 0, 5],
+                [7, 2, 0]]
+        self.distance = [
+                [0, 5, 2],
+                [1, 0, 1],
+                [6, 2, 0]]
+        self.i = Instance(None, self.distance, self.flow)
+        self.ts = TabuSearch()
+        self.startpoint = Solution((0, 1, 2))
+
+    def test_with_startpoint(self):
+        expected = (2, 1, 0)
+        actual = self.ts.solve(self.i, self.startpoint).sequence
+        self.assertEqual(expected, actual)
 
 class SimilarityTest(unittest.TestCase):
     def setUp(self):
