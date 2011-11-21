@@ -2,6 +2,8 @@
 
 import unittest
 
+from collections import defaultdict
+
 from instance import Instance
 from heuristic import Heuristic
 from solution import Solution
@@ -129,6 +131,13 @@ class TestTabuSearch(unittest.TestCase):
         self.i = Instance(None, self.distance, self.flow)
         self.ts = TabuSearch()
         self.startpoint = Solution((0, 1, 2))
+
+    def test_filter_moves(self):
+        moves = [(1,2), (1,3), (2,3)]
+        tabu = defaultdict(int, {(1,2): 1, (2,3): 1})
+        expected = [(1,3)]
+        actual = list(self.ts._get_filtered_moves(moves, tabu))
+        self.assertEqual(expected, actual)
 
     def test_with_startpoint(self):
         expected = (2, 1, 0)

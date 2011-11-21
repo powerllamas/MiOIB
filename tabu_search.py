@@ -27,9 +27,9 @@ class TabuSearch(object):
             for move in self._get_filtered_moves(current[0].moves()):
                 new_solution = current[0].make_move(move)
                 move_score = e.evaluate(new_solution)
-                if move_score > current[1]:
+                if move_score < current[1]:
                     current = (new_solution, move_score)
-                    if move_score > best[1]:
+                    if move_score < best[1]:
                         best = (new_solution, move_score)
                     self._decrease_tabu_penalty()
                     self.tabu[move] = self.penalty_time
@@ -38,7 +38,7 @@ class TabuSearch(object):
         return best[0]
 
     def _stop(self, current):
-        if self._stop_best > current[1]:
+        if self._stop_best <= current[1]:
             self._stop_counter += 1
         else:
             self._stop_best = current[1]
@@ -51,5 +51,7 @@ class TabuSearch(object):
             if self.tabu[k] <= 0:
                 del self.tabu[k]
 
-    def _get_filtered_moves(self, moves):
-        return (move for move in moves if move not in self.tabu)
+    def _get_filtered_moves(self, moves, tabu=None):
+        if tabu is None:
+            tabu = self.tabu
+        return (move for move in moves if move not in tabu)
