@@ -1,3 +1,4 @@
+
 \documentclass{article}
 \usepackage{polski} %może wymagac dokonfigurowania latexa, ale jest lepszy niż standardowy babel'owy [polish]
 \usepackage[utf8]{inputenc}
@@ -15,15 +16,29 @@
 \input{_tytulowa}
 
 \begin{abstract}
-\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{Greedy} i \emph{Steepest}.
+\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{greedy} i \emph{steepest}.
 \end{abstract}
 
 
 \section{Wstęp}
 	\subsection{Opis problemu}
-	\emph{QAP (Quadratic Assignement Problem)} jest jednym z podstawowych problemów kombinatorycznych. Mając dane dwa równoliczne zbiory $W$(,,wydziały") i $L$(,,lokalizacje") oraz dwie funkcje (lub po prostu macierze): odległości $o:  L \times L \rightarrow \mathbb{R} $ oraz przepływów $p: W \times W \rightarrow \mathbb{R} $. Celem optymalizacji jest znalezinie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z $W$ do elementów z $B$ , która minimalizuje funkcję:
+	\emph{\emph{QAP} (Quadratic Assignement Problem)} jest jednym z podstawowych problemów kombinatorycznych. Na instancję problemu składają się:
+	\begin{itemize}
+		\item{dwa równoliczne zbiory:
+			\begin{itemize}
+				\item{ $W$ (,,wydziały") }
+				\item{ $L$ (,,lokalizacje")}
+			\end{itemize}
+			}
+		\item{dwie funkcje:
+			\begin{itemize}
+				\item{ odległości $o:  L \times L \rightarrow \mathbb{R} $}
+				\item{ przepływów $p: W \times W \rightarrow \mathbb{R} $}
+			\end{itemize}}
+	\end{itemize}
+		Celem optymalizacji jest znalezienie takiej funkcji $ f: W \rightarrow B $  przydziału elementów z $W$ do elementów z $B$ , która minimalizuje funkcję:
 	$$\sum_{a,b \in W}o(a,b)\times p(f(a),f(b))$$
-	QAP może modelować następującą sytuację: w pewnej firmie jest $n$ wydziałów, ich zbiór oznaczymy przez $W$ oraz $n$ lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez $L$. Znane są odległości między lokalizacjami (funkcja $o$) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja $p$). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję $f$) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
+	\emph{QAP} może modelować następującą sytuację: w pewnej firmie jest $n$ wydziałów, ich zbiór oznaczymy przez $W$ oraz $n$ lokalizacji (budynki, pomieszczenia, miasta), których zbiór oznaczony jest przez $L$. Znane są odległości między lokalizacjami (funkcja $o$) oraz natężenie (przepływ) ruchu pomiędzy wydziałami (funkcja $p$). Koszt ruchu między wydziałami to odległość pomiędzy lokalizacjami do których są one przypisane pomnożony przez natężenie ruchu między tymi wydziałami. Należy tak przyporządkować wydziały do lokalizacji (definiując funkcję $f$) żeby łączny koszt ruchu między wydziałami był jak najmniejszy.
 
 	Zastosowania \emph{QAP}:
 	\begin{itemize}
@@ -31,36 +46,41 @@
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{greedy} i~\emph{steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
-	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów - umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
+	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
 	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
-		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}.
+		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random} i heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania dwóch pierwszych pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/time}
-				\caption{Porównanie czasu działania algorytmów dla różnych instancji QAP\label{fig:time}}
+				\caption{Porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}\label{fig:time}}
+			\end{figure}
+			
+			\begin{figure}[h]
+				\includegraphics[scale=0.90]{../results/time_hr}
+				\caption{Porównanie czasu działania algorytmu \emph{random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
 			\end{figure}
 
-		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek optymalnej globalnie wartości funkcji celu(znanej apriori) do wartości funkcji celu otrzymanej dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (w wyniku skończonej precyzji liczb rzeczywistych w komputerze najgorsze rozwiązania mogą mieć jakość równą 0).
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/quality}
-				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:quality}}
+				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:quality}}
 			\end{figure}
 
 		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
-				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji QAP\label{fig:best_quality}}
+				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
 			\end{figure}
 
 		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/effectivenes}
-				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji QAP\label{fig:effectivenes}}
+				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}\label{fig:effectivenes}}
 			\end{figure}
 
 
@@ -69,7 +89,7 @@
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
 			Na rysunkach \ref{fig:gs.nug24}, \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
 			
-			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24}. Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięc różnych (pod względem oceny) optimum lokalnych, świadczy o~tym wrażenie umiejscowienia punktów danych ,,na siatce".
+			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24}. Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięć różnych (pod względem oceny) optimów lokalnych, świadczy o~tym wrażenie umiejscowienia punktów danych ,,na siatce".
 			
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/gs_comparision_nug24.pdf}
@@ -87,7 +107,7 @@
 			\end{figure}
 		
 		\subsubsection{Wpływ liczby restartów na jakość rozwiązania}		
-			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys. \ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys. \ref{fig:mr.chr12a}  . Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\% co umożliwiło poprawę rozwiązania do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys. \ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych gorszych od optimum globalnego, w których algorytm "utyka". W przypadku pozostałych instancji krajobraz musi być bardziej "gładki" lub "wyższy". W pierwszym przypadku algorytm niezależnie od pkt. startowego znajduje optimum globalne  - stąd brak różnic w kolejnych uruchomieniach - tak jest w przypadku instancji \emph{bur26a} co widać na rys. \ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna - tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
+			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys.~\ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys.~\ref{fig:mr.chr12a}. Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\%, co umożliwiło poprawę rozwiązania do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys.~\ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych gorszych od optimum globalnego, w których algorytm ,,utyka". W przypadku pozostałych instancji krajobraz musi być bardziej ,,gładki" lub ,,wyższy". W pierwszym przypadku algorytm niezależnie od pkt.~startowego znajduje optimum globalne -- stąd brak różnic w kolejnych uruchomieniach -- tak jest w przypadku instancji \emph{bur26a} co widać na rys.~\ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna -- tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
 			\\Ciężko jednoznacznie określić kiedy przerwać ponowne uruchamianie algorytmu. Można kierowaź się jednym lub kilkoma z poniższych warunków:
 			\begin{itemize}
 				\item{odchylenie standardowe jakości rozwiązań jest mniejsze niż określony próg}
@@ -95,7 +115,7 @@
 				\item{tempo poprawy najlepszej jakości spada poniżej określonego progu}
 				\item{całościowy czas wykonywania algorytmu przekracza wyznaczony próg}
 				\item{algorytm osiąga pożądaną jakość}
-				\item{Po wykonaniu algorytmu n razy koszt jego wykonywania przekracza zyski z poprawy jakości (jeśli można je mierzyć tą samą miarą}
+				\item{Po wykonywaniu algorytmu przez pewien czas koszt jego wykonywania przekracza zyski z poprawy jakości (jeśli można je mierzyć tą samą miarą)}
 			\end{itemize}
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/multirandom_kra30a.pdf}
@@ -111,34 +131,34 @@
 			\end{figure}
 
 	\subsection{Ocena podobieństwa rozwiązań}
-		W celu oceny podobieństwa rozwiązań zaimplementowano dwie miary podobieństwa rozwiązań problemu QAP. Obie z nich operują na permutacji zbioru wydziałów jako reprezentacji rozwiązania problemu (została opisana w pkt. \ref{ss:operator}). Pierwszą z nich nazwano ,,podobieństwem binarnym" - jest to stosunek liczbyb zgodnych pozycji w dwóch porównywanych permutacjach do liczy wszystkich elementów permutacji. Miara ta przyjmuje wartości z zakresu $[0,1]$, przy czym wartość 0 osiąga dla rozwiązań, które nie przypisują żadnego ,,wydziału" do tej samej ,,lokalizacji".
-	\\Druga miara, którą nazwano "podobieństwo cząstkowe", w przypadku gdy odpowiadające sobie elementy permutacji nie są identyczne, porównuje ich wkład do oceny rozwiązania. Motywację tego zabiegu przedstawimy na przykładzie sytuacji ,,lokalizacje i wydziały": jeśli dwie lokalizacje leżą koło siebie, czyli znajdują się tak samo daleko od pozostałych lokalizacji, to nie ma różnicy do której z nich przypiszemy wydział A a do drugiej wydział B (w~rzeczywistości różnica może wystapić, ponieważ odległość między tymi dwiema lokalizacjami może być niesymetryczna albo nawet ,,odległość" lokalizacji od samej siebie -- która nie w każdej instancji jest zerowa -- może być różna). W związku z tym, aby porównać dwie lokalizacje miara porównuje odpowiednie wiersze i~kolumny w~macierzy odległości wg poniższego wzoru:
+		W celu oceny podobieństwa rozwiązań zaimplementowano dwie miary podobieństwa rozwiązań problemu \emph{QAP}. Obie z nich operują na permutacji zbioru wydziałów jako reprezentacji rozwiązania problemu (została opisana w pkt.~\ref{ss:operator}). Pierwszą z nich nazwano ,,podobieństwem binarnym" -- jest to stosunek liczby zgodnych pozycji w dwóch porównywanych permutacjach do liczy wszystkich elementów permutacji. Miara ta przyjmuje wartości z zakresu $[0,1]$, przy czym wartość 0 osiąga dla rozwiązań, które nie przypisują żadnego ,,wydziału" do tej samej ,,lokalizacji".
+	\\Druga miara, którą nazwano ,,podobieństwo cząstkowe", w przypadku gdy odpowiadające sobie elementy permutacji nie są identyczne, porównuje ich wkład do oceny rozwiązania. Motywację tego zabiegu przedstawimy na przykładzie sytuacji ,,lokalizacje i wydziały": jeśli dwie lokalizacje leżą koło siebie, czyli znajdują się tak samo daleko od pozostałych lokalizacji, to nie ma różnicy do której z nich przypiszemy wydział A a do drugiej wydział B (w~rzeczywistości różnica może wystąpić, ponieważ odległość między tymi dwiema lokalizacjami może być niesymetryczna albo nawet ,,odległość" lokalizacji od samej siebie -- która nie w każdej instancji jest zerowa -- może być różna). W związku z tym, aby porównać dwie lokalizacje miara porównuje odpowiednie wiersze i~kolumny w~macierzy odległości wg poniższego wzoru:
 		$$ sim(a, b) = \left(\sum_{i=1}^{N}\frac{min(d(a,i), d(b,i))}{max(d(a,i), d(b,i))} +  \sum_{i=1}^{N}\frac{min(d(i,a), d(i,b))}{max(d(i,a), d(i,b))}\right) \div 2N  $$
 		gdzie $a$ i $b$ to lokalizacje, $d(x,y)$ to odległość między lokalizacjami $x$ i $y$, $N$ to liczba lokalizacji. Jeśli licznik któregoś z iloczynów występujących wewnątrz powyższego wzoru jest równy 0, to przyjmuje się, że cały iloczyn ma wartość zero (nawet jeśli w mianowniku też jest zero) aby uniknąć dzielenia przez 0.
 \\Ostatecznie podobieństwo między dwoma rozwiązaniami mierzone miarą ,,podobieństwa cząstkowego" wyraża się wzorem:
 $$ SolutionSim(s1, s2) = \frac{\sum_{i=0}^{N}{sim(s1[i], s2[i])}}{N}$$	
-		gdzie $s[i]$ to $i$-ty element rozwiązania $s$, $sim(a,b)$ to miara podobieństwa lokalizaji opisana powyżej.
-		Miara ta tak samo jak miara podobieństwa binarnego przykmuje wartości z zakresu $ [0,1] $ .
+		gdzie $s[i]$ to $i$-ty element rozwiązania $s$, $sim(a,b)$ to miara podobieństwa lokalizacji opisana powyżej.
+		Miara ta tak samo jak miara podobieństwa binarnego przyjmuje wartości z zakresu $ [0,1] $ .
 	\\Na rys \ref{fig:bin_sim} i \ref{fig:part_sim} przedstawiono średnie podobieństwo między wszystkimi parami wygenerowanych rozwiązań lokalnych. 
 %	Jak widać, dla wszystkich instancji i obu miar podobieństwa algorytm \emph{steepest} generował bardziej podobne do siebie rozwiązania. Jeśli dwa różne rozwiązania mają wspólne sąsiednie rozwiązanie i dla obu z nich jest ono najlepszym z ich sąsiednich rozwiązań, to algorytm \emph{steepest} wybierze dla obu dotychczasowych rozwiązań właśnie tego sąsiada jako następne rozwiązanie. Nie musi tak być w przypadku algorytmu \emph{greedy}, stąd w steepset rozwiązania mogą bardziej zbiegać się w tym samym kierunku przez co ostateczne rozwiązania są bardziej do siebie podobne.
-	\\Co zrozumiałe, w przypadku algorytmu random rozwiązania są najmniej do siebie podobne, jednak widać, że róznica względem \emph{steepest} i \emph{greedy} nie jest znaczna. Widać dzięki temu, że podobieństwo rozwiązań znajdowanych przez te algorytmy jest w dużej mierze dziełem przypadku. W najlepszym przypadku różnica między średnim podobieństwem rozwiązań algorytmu random i steepest wynosi ok $0.1$.
+	\\Co zrozumiałe, w przypadku algorytmu random rozwiązania są najmniej do siebie podobne, jednak widać, że różnica względem \emph{steepest} i \emph{greedy} nie jest znaczna. Widać dzięki temu, że podobieństwo rozwiązań znajdowanych przez te algorytmy jest w dużej mierze dziełem przypadku. W najlepszym przypadku różnica między średnim podobieństwem rozwiązań algorytmu \emph{random} i \emph{steepest} wynosi ok $0.1$.
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/binary_similarity.pdf}
-				\caption{Średnie podobieństwo binarne między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{Greedy} i \emph{Steepest}\label{fig:bin_sim}}		
+				\caption{Średnie podobieństwo binarne między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{greedy} i \emph{steepest}\label{fig:bin_sim}}		
 			\end{figure}				
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/partial_similarity.pdf}
-				\caption{Średnie podobieństwo cząstkowe między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{Greedy} i \emph{Steepest}\label{fig:part_sim}}		
+				\caption{Średnie podobieństwo cząstkowe między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{greedy} i \emph{steepest}\label{fig:part_sim}}		
 			\end{figure}	
 		
 \section{Podsumowanie}
 	\subsection{Wnioski}
 		\begin{itemize}
-		\item Jakość rozwiązań osiągana przez \emph{greedy} i~\emph{steepest} jest porównywalna, stąd lepiej stosować \emph{greedy} ze względu na krótszy czas pojedynczego wywołania algorytmu.
-		\item Zaproponowana heurystyka daje efekty porównywalne z~\emph{multirandom}.
-		\item O~ile \emph{Local Search} sprawdza się dla wszystkich instancji, efektywność \emph{multirandom} zależy od konkretnego przypadku.
-		\item W~żadnym przypadku nie znaleziono związku między jakością rozwiązania startowego a~końcowego.
-		\item Podobieństwo częściowe rozwiązań znajdowanych przez dany algorytm na danej instancji jest podobne dla różnych algorytmów.
+			\item Jakość rozwiązań osiągana przez \emph{greedy} i~\emph{steepest} jest porównywalna, stąd lepiej stosować \emph{greedy} ze względu na krótszy czas pojedynczego wywołania algorytmu.
+			\item Zaproponowana heurystyka daje efekty porównywalne z~algorytmem\emph{random}.
+			\item O~ile \emph{Local Search} sprawdza się dla wszystkich instancji, efektywność 	\emph{random} zależy od konkretnego przypadku.
+			\item W~żadnym przypadku nie znaleziono związku między jakością rozwiązania startowego a~końcowego.
+			\item Podobieństwo cząstkowe rozwiązań znajdowanych przez dany algorytm na danej instancji jest podobne dla różnych algorytmów.
 		\end{itemize}
 
 
