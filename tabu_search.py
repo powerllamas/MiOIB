@@ -57,3 +57,7 @@ class TabuSearch(object):
         if tabu is None:
             tabu = self.tabu
         return (move for move in moves if move not in tabu)
+
+    def _select_best_move(self, current, moves, e):
+        scored = sorted(moves, key=lambda x: e.evaluate(current.make_move(x)))
+        return scored[0]

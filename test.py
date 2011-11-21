@@ -4,6 +4,7 @@ import unittest
 
 from collections import defaultdict
 
+from evaluator import Evaluator as E
 from instance import Instance
 from heuristic import Heuristic
 from solution import Solution
@@ -129,6 +130,7 @@ class TestTabuSearch(unittest.TestCase):
                 [1, 0, 1],
                 [6, 2, 0]]
         self.i = Instance(None, self.distance, self.flow)
+        self.e = E(self.i)
         self.ts = TabuSearch()
         self.startpoint = Solution((0, 1, 2))
 
@@ -144,6 +146,13 @@ class TestTabuSearch(unittest.TestCase):
         expected = [(1,2)]
         self.ts._decrease_tabu_penalty(tabu)
         actual = tabu.keys()
+        self.assertEqual(expected, actual)
+
+    def test_select_best_move(self):
+        current = self.startpoint
+        moves = [(0,1), (0,2), (1,2)]
+        expected = (0,2)
+        actual = self.ts._select_best_move(current, moves, self.e)
         self.assertEqual(expected, actual)
 
     def test_with_startpoint(self):
