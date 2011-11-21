@@ -139,6 +139,13 @@ class TestTabuSearch(unittest.TestCase):
         actual = list(self.ts._get_filtered_moves(moves, tabu))
         self.assertEqual(expected, actual)
 
+    def test_decrease_tabu_penalty(self):
+        tabu = defaultdict(int, {(1,2): 2, (2,3): 1})
+        expected = [(1,2)]
+        self.ts._decrease_tabu_penalty(tabu)
+        actual = tabu.keys()
+        self.assertEqual(expected, actual)
+
     def test_with_startpoint(self):
         expected = (2, 1, 0)
         actual = self.ts.solve(self.i, self.startpoint).sequence

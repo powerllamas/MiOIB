@@ -45,11 +45,13 @@ class TabuSearch(object):
             self._stop_counter = 0
         return self._stop_counter > 10
 
-    def _decrease_tabu_penalty(self):
-        for k in self.tabu.keys():
-            self.tabu[k] -= 1
-            if self.tabu[k] <= 0:
-                del self.tabu[k]
+    def _decrease_tabu_penalty(self, tabu=None):
+        if tabu is None:
+            tabu = self.tabu
+        for k in tabu.keys():
+            tabu[k] -= 1
+            if tabu[k] <= 0:
+                del tabu[k]
 
     def _get_filtered_moves(self, moves, tabu=None):
         if tabu is None:
