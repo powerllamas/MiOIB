@@ -19,12 +19,12 @@ class TabuSearch(object):
         self.tabu = defaultdict(int)
 
         if self.penalty_time is None:
-            penalty = len(instance)//4 or 1
+            penalty = len(instance) // 4 or 1
         else:
             penalty = self.penalty_time
 
         if self.candidate_list_length is None:
-            nr_of_moves = len(instance)//10 or 1
+            nr_of_moves = len(instance) // 10 or 1
         else:
             nr_of_moves = self.candidate_list_length
 
@@ -66,11 +66,10 @@ class TabuSearch(object):
         return self._stop_counter > 10
 
     def _fill_moves(self, current, moves, nr_of_moves, e):
-        if len(moves) <= nr_of_moves//2:
+        if len(moves) <= nr_of_moves // 2:
             found = self._select_best_moves(current[0],
                     current[0].moves(), e, nr_of_moves)
             moves[:] = found
-
 
     def _decrease_tabu_penalty(self, tabu=None):
         if tabu is None:
@@ -86,12 +85,13 @@ class TabuSearch(object):
         if e is None or current is None:
             filter_f = lambda m: m not in tabu
         else:
-            filter_f = lambda m: m not in tabu or e.evaluate(current[0].make_move(m)) > current[1]
+            filter_f = (lambda m: m not in tabu
+                    or e.evaluate(current[0].make_move(m)) > current[1])
         return (move for move in moves if filter_f(move))
 
     def _select_best_move(self, current, moves, e):
-        scored = sorted(moves, key=lambda x: e.evaluate(current.make_move(x)))
-        return scored[0]
+        moves = self._select_best_moves(current, moves, e, 1)
+        return moves[0] if len(moves) > 0 else None
 
     def _select_best_moves(self, current, moves, e, amount):
         scored = sorted(moves, key=lambda x: e.evaluate(current.make_move(x)))
