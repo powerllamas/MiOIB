@@ -138,7 +138,20 @@ class TestTabuSearch(unittest.TestCase):
         moves = [(1,2), (1,3), (2,3)]
         tabu = defaultdict(int, {(1,2): 1, (2,3): 1})
         expected = [(1,3)]
-        actual = list(self.ts._get_filtered_moves(moves, tabu))
+        actual = list(self.ts._get_filtered_moves(moves, tabu=tabu))
+        self.assertEqual(expected, actual)
+
+    def test_filter_moves_with_aspiration(self):
+        self.i = Instance(None, self.distance, self.flow)
+        self.e = E(self.i)
+        self.startpoint = Solution((2, 1, 0))
+
+        moves = [(0,1), (0,2), (1,2)]
+        tabu = defaultdict(int, {(0,1): 1, (1,2): 2, (0,2): 3})
+        expected = [(0,1), (0,2), (1,2)]
+        actual = list(self.ts._get_filtered_moves(moves, e=self.e,
+            current=(self.startpoint, self.e.evaluate(self.startpoint)),
+            tabu=tabu))
         self.assertEqual(expected, actual)
 
     def test_decrease_tabu_penalty(self):
