@@ -168,6 +168,13 @@ class TestTabuSearch(unittest.TestCase):
         actual = self.ts._select_best_move(current, moves, self.e)
         self.assertEqual(expected, actual)
 
+    def test_select_best_moves(self):
+        current = self.startpoint
+        moves = [(0,1), (0,2), (1,2)]
+        expected = [(0,2), (1,2)]
+        actual = self.ts._select_best_moves(current, moves, self.e, 2)
+        self.assertEqual(expected, actual)
+
     def test_with_startpoint(self):
         expected = (2, 1, 0)
         actual = self.ts.solve(self.i, self.startpoint).sequence

@@ -8,8 +8,9 @@ from evaluator import Evaluator as E
 
 class TabuSearch(object):
 
-    def __init__(self, penalty_time=None):
+    def __init__(self, penalty_time=None, candidate_list_length=None):
         self.penalty_time = penalty_time
+        self.candidate_list_length = candidate_list_length
 
     def solve(self, instance, startpoint):
         if startpoint is None:
@@ -22,14 +23,18 @@ class TabuSearch(object):
         else:
             penalty = self.penalty_time
 
+        if self.candidate_list_length is None:
+            nr_of_moves = len(instance)//10 or 1
+        else:
+            nr_of_moves = self.candidate_list_length
+
         list_of_moves = []
-        nr_of_moves = len(instance)//10 or 1
 
         e = E(instance)
         current = (startpoint, e.evaluate(startpoint))
         best = current
-        self._stop_counter = 0
-        self._stop_best = current[1]
+
+        self._update_stop_criteria(counter=0, best_score=current[1])
 
         while not self._stop(current):
             self._fill_moves(current, list_of_moves, nr_of_moves, e)
@@ -47,12 +52,17 @@ class TabuSearch(object):
 
         return best[0]
 
+    def _update_stop_criteria(self, counter=None, best_score=None):
+        if counter is not None:
+            self._stop_counter = counter
+        if best_score is not None:
+            self._stop_best = best_score
+
     def _stop(self, current):
         if self._stop_best <= current[1]:
             self._stop_counter += 1
         else:
-            self._stop_best = current[1]
-            self._stop_counter = 0
+            self._update_stop_criteria(counter=0, best_score=current[1])
         return self._stop_counter > 10
 
     def _fill_moves(self, current, moves, nr_of_moves, e):
