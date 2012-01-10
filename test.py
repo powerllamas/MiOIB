@@ -2,6 +2,9 @@
 
 import unittest
 
+from collections import defaultdict
+
+from evaluator import Evaluator as E
 from instance import Instance
 from heuristic import Heuristic
 from solution import Solution
@@ -85,6 +88,7 @@ class TestLocalSearch(unittest.TestCase):
         actual = self.ls_greedy.solve(self.i, self.startpoint).sequence
         self.assertEqual(expected, actual)
 
+
 class TestSimulatedAnnealing(unittest.TestCase):
 
     def setUp(self):
@@ -115,6 +119,7 @@ class TestSimulatedAnnealing(unittest.TestCase):
         actual = self.sa._guess_temp(self.i, prob=0.95)
         self.assertAlmostEqual(expected, actual, 0)
 
+
 class TestTabuSearch(unittest.TestCase):
 
     def setUp(self):
@@ -127,19 +132,73 @@ class TestTabuSearch(unittest.TestCase):
                 [1, 0, 1],
                 [6, 2, 0]]
         self.i = Instance(None, self.distance, self.flow)
+        self.e = E(self.i)
         self.ts = TabuSearch()
         self.startpoint = Solution((0, 1, 2))
+
+    def test_filter_moves(self):
+        moves = [(1, 2),
+                (1, 3),
+                (2, 3)]
+        tabu = defaultdict(int, {(1, 2): 1, (2, 3): 1})
+        expected = [(1, 3)]
+        actual = list(self.ts._get_filtered_moves(moves, tabu=tabu))
+        self.assertEqual(expected, actual)
+
+    def test_filter_moves_with_aspiration(self):
+        self.i = Instance(None, self.distance, self.flow)
+        self.e = E(self.i)
+        self.startpoint = Solution((2, 1, 0))
+
+        moves = [(0, 1),
+                (0, 2),
+                (1, 2)]
+        tabu = defaultdict(int, {(0, 1): 1, (1, 2): 2, (0, 2): 3})
+        expected = [(0, 1),
+                (0, 2),
+                (1, 2)]
+        actual = list(self.ts._get_filtered_moves(moves, e=self.e,
+            current=(self.startpoint, self.e.evaluate(self.startpoint)),
+            tabu=tabu))
+        self.assertEqual(expected, actual)
+
+    def test_decrease_tabu_penalty(self):
+        tabu = defaultdict(int, {(1, 2): 2, (2, 3): 1})
+        expected = [(1, 2)]
+        self.ts._decrease_tabu_penalty(tabu)
+        actual = tabu.keys()
+        self.assertEqual(expected, actual)
+
+    def test_select_best_move(self):
+        current = self.startpoint
+        moves = [(0, 1),
+                (0, 2),
+                (1, 2)]
+        expected = (0, 2)
+        actual = self.ts._select_best_move(current, moves, self.e)
+        self.assertEqual(expected, actual)
+
+    def test_select_best_moves(self):
+        current = self.startpoint
+        moves = [(0, 1),
+                (0, 2),
+                (1, 2)]
+        expected = [(0, 2),
+                (1, 2)]
+        actual = self.ts._select_best_moves(current, moves, self.e, 2)
+        self.assertEqual(expected, actual)
 
     def test_with_startpoint(self):
         expected = (2, 1, 0)
         actual = self.ts.solve(self.i, self.startpoint).sequence
         self.assertEqual(expected, actual)
 
+
 class SimilarityTest(unittest.TestCase):
     def setUp(self):
-        self.s1 = Solution((0,1,2))
-        self.s2 = Solution((0,2,1))
-        self.s3 = Solution((0,1,2))
+        self.s1 = Solution((0, 1, 2))
+        self.s2 = Solution((0, 2, 1))
+        self.s3 = Solution((0, 1, 2))
         self.flow = [
                 [0, 1, 2],
                 [4, 0, 5],
@@ -171,24 +230,28 @@ class SimilarityTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_ratio_similarity(self):
-        expected = (1.0 + 2.0/3.0 + 0.5) / 3.0
+        expected = (1.0 + 2.0 / 3.0 + 0.5) / 3.0
         actual = similarity.ratio_similarity([3, 4, 2], [3, 6, 1])
         self.assertEqual(actual, expected)
 
     def test_partial_solution_similarity_identical2(self):
         expected = 1.0
-        actual = similarity.partial_solution_similarity(self.s1, self.s2, self.i)
+        actual = similarity.partial_solution_similarity(self.s1,
+                self.s2, self.i)
         self.assertEqual(actual, expected)
 
     def test_partial_solution_similarity_identical3(self):
         expected = 1.0
-        actual = similarity.partial_solution_similarity(self.s1, self.s3, self.i2)
+        actual = similarity.partial_solution_similarity(self.s1,
+                self.s3, self.i2)
         self.assertEqual(actual, expected)
 
     def test_partial_solution_similarity(self):
-        expected = (1.0 + 1.0/18.0 + 4.0/30.0 ) / 3.0
-        actual = similarity.partial_solution_similarity(self.s1, self.s2, self.i2)
+        expected = (1.0 + 1.0 / 18.0 + 4.0 / 30.0) / 3.0
+        actual = similarity.partial_solution_similarity(self.s1,
+                self.s2, self.i2)
         self.assertAlmostEqual(actual, expected)
+
 
 class TestSolution(unittest.TestCase):
     def setUp(self):

@@ -10,7 +10,10 @@ import heuristic
 import random_solver
 import local_search
 import similarity
+
 from random_solver import Random
+from simulated_annealing import SimulatedAnnealing
+from tabu_search import TabuSearch
 
 def compute(inst, alg, n, max_time):
     results = []
@@ -118,6 +121,7 @@ if __name__ == '__main__':
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
+
     parser.add_argument('-R', '--Random', action='append_const', dest='choosen_algorithms',
                         const='Random', help='Turns on Random algorithm')
     parser.add_argument('-M', '--Multirandom', action='append_const', dest='choosen_algorithms',
@@ -128,6 +132,10 @@ if __name__ == '__main__':
                         const='Greedy', help='Turns on Greedy algorithm')
     parser.add_argument('-S', '--Steepest', action='append_const', dest='choosen_algorithms',
                         const='Steepest', help='Turns on Steepest algorithm')
+    parser.add_argument('-A', '--Annealing', action='append_const', dest='choosen_algorithms',
+                        const='Annealing', help='Turns on simulated annealing')
+    parser.add_argument('-T', '--Tabu', action='append_const', dest='choosen_algorithms',
+                        const='Tabu', help='Turns on tabu search algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
@@ -136,7 +144,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     algorithms = []
-    all_algorithms = [("Greedy", local_search.LocalSearch(greedy=True)), ("Steepest", local_search.LocalSearch()), ("Heuristic", heuristic.Heuristic()), ("Random", random_solver.Random()), ("Multirandom", random_solver.Random())]
+
+    all_algorithms = [("Greedy", local_search.LocalSearch(greedy=True)),
+                      ("Steepest", local_search.LocalSearch()),
+                      ("Heuristic", heuristic.Heuristic()),
+                      ("Random", random_solver.Random()),
+                      ("Multirandom", random_solver.Random()),
+                      ("Annealing", SimulatedAnnealing()),
+                      ("Tabu", TabuSearch())]]
+
 
     for alg in all_algorithms:
         if alg[0] in args.choosen_algorithms:
