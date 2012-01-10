@@ -20,7 +20,7 @@ def compute(inst, alg, n, max_time):
     startpoints = []
     start = time.clock()
     for i in range(n):
-        if alg[0] == "Greedy":
+        if alg[0] == "Greedy" or alg[0] == "Tabu" or alg[0] == "Annealing":
             startpoint = Random().solve(inst)
             startpoints.append(startpoint)
             results.append(alg[1].solve(inst, startpoint))
@@ -151,7 +151,7 @@ if __name__ == '__main__':
                       ("Random", random_solver.Random()),
                       ("Multirandom", random_solver.Random()),
                       ("Annealing", SimulatedAnnealing()),
-                      ("Tabu", TabuSearch())]]
+                      ("Tabu", TabuSearch())]
 
 
     for alg in all_algorithms:
