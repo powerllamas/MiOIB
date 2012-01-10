@@ -16,7 +16,7 @@
 \input{_tytulowa}
 
 \begin{abstract}
-\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{greedy} i \emph{steepest}.
+\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{Greedy} i \emph{Steepest}.
 \end{abstract}
 
 
@@ -46,7 +46,7 @@
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{greedy} i~\emph{steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~testowane na komputerze z procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
 	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
@@ -62,7 +62,7 @@
 			
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/time_hr}
-				\caption{Porównanie czasu działania algorytmu \emph{random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
+				\caption{Porównanie czasu działania algorytmu \emph{Random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
 			\end{figure}
 
 		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek optymalnej globalnie wartości funkcji celu(znanej apriori) do wartości funkcji celu otrzymanej dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (w wyniku skończonej precyzji liczb rzeczywistych w komputerze najgorsze rozwiązania mogą mieć jakość równą 0).
@@ -140,23 +140,23 @@ $$ SolutionSim(s1, s2) = \frac{\sum_{i=0}^{N}{sim(s1[i], s2[i])}}{N}$$
 		gdzie $s[i]$ to $i$-ty element rozwiązania $s$, $sim(a,b)$ to miara podobieństwa lokalizacji opisana powyżej.
 		Miara ta tak samo jak miara podobieństwa binarnego przyjmuje wartości z zakresu $ [0,1] $ .
 	\\Na rys \ref{fig:bin_sim} i \ref{fig:part_sim} przedstawiono średnie podobieństwo między wszystkimi parami wygenerowanych rozwiązań lokalnych. 
-%	Jak widać, dla wszystkich instancji i obu miar podobieństwa algorytm \emph{steepest} generował bardziej podobne do siebie rozwiązania. Jeśli dwa różne rozwiązania mają wspólne sąsiednie rozwiązanie i dla obu z nich jest ono najlepszym z ich sąsiednich rozwiązań, to algorytm \emph{steepest} wybierze dla obu dotychczasowych rozwiązań właśnie tego sąsiada jako następne rozwiązanie. Nie musi tak być w przypadku algorytmu \emph{greedy}, stąd w steepset rozwiązania mogą bardziej zbiegać się w tym samym kierunku przez co ostateczne rozwiązania są bardziej do siebie podobne.
-	\\Co zrozumiałe, w przypadku algorytmu random rozwiązania są najmniej do siebie podobne, jednak widać, że różnica względem \emph{steepest} i \emph{greedy} nie jest znaczna. Widać dzięki temu, że podobieństwo rozwiązań znajdowanych przez te algorytmy jest w dużej mierze dziełem przypadku. W najlepszym przypadku różnica między średnim podobieństwem rozwiązań algorytmu \emph{random} i \emph{steepest} wynosi ok $0.1$.
+%	Jak widać, dla wszystkich instancji i obu miar podobieństwa algorytm \emph{Steepest} generował bardziej podobne do siebie rozwiązania. Jeśli dwa różne rozwiązania mają wspólne sąsiednie rozwiązanie i dla obu z nich jest ono najlepszym z ich sąsiednich rozwiązań, to algorytm \emph{Steepest} wybierze dla obu dotychczasowych rozwiązań właśnie tego sąsiada jako następne rozwiązanie. Nie musi tak być w przypadku algorytmu \emph{greedy}, stąd w steepset rozwiązania mogą bardziej zbiegać się w tym samym kierunku przez co ostateczne rozwiązania są bardziej do siebie podobne.
+	\\Co zrozumiałe, w przypadku algorytmu random rozwiązania są najmniej do siebie podobne, jednak widać, że różnica względem \emph{Steepest} i \emph{Greedy} nie jest znaczna. Widać dzięki temu, że podobieństwo rozwiązań znajdowanych przez te algorytmy jest w dużej mierze dziełem przypadku. W najlepszym przypadku różnica między średnim podobieństwem rozwiązań algorytmu \emph{Random} i \emph{Steepest} wynosi ok $0.1$.
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/binary_similarity.pdf}
-				\caption{Średnie podobieństwo binarne między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{greedy} i \emph{steepest}\label{fig:bin_sim}}		
+				\caption{Średnie podobieństwo binarne między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{Greedy} i \emph{Steepest}\label{fig:bin_sim}}		
 			\end{figure}				
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/partial_similarity.pdf}
-				\caption{Średnie podobieństwo cząstkowe między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{greedy} i \emph{steepest}\label{fig:part_sim}}		
+				\caption{Średnie podobieństwo cząstkowe między wszystkimi parami wygenerowanych rozwiązań lokalnie optymalnych dla algorytmów \emph{Greedy} i \emph{Steepest}\label{fig:part_sim}}		
 			\end{figure}	
 		
 \section{Podsumowanie}
 	\subsection{Wnioski}
 		\begin{itemize}
-			\item Jakość rozwiązań osiągana przez \emph{greedy} i~\emph{steepest} jest porównywalna, stąd lepiej stosować \emph{greedy} ze względu na krótszy czas pojedynczego wywołania algorytmu.
-			\item Zaproponowana heurystyka daje efekty porównywalne z~algorytmem\emph{random}.
-			\item O~ile \emph{Local Search} sprawdza się dla wszystkich instancji, efektywność 	\emph{random} zależy od konkretnego przypadku.
+			\item Jakość rozwiązań osiągana przez \emph{Greedy} i~\emph{Steepest} jest porównywalna, stąd lepiej stosować \emph{Greedy} ze względu na krótszy czas pojedynczego wywołania algorytmu.
+			\item Zaproponowana heurystyka daje efekty porównywalne z~algorytmem\emph{Random}.
+			\item O~ile \emph{Local Search} sprawdza się dla wszystkich instancji, efektywność 	\emph{Random} zależy od konkretnego przypadku.
 			\item W~żadnym przypadku nie znaleziono związku między jakością rozwiązania startowego a~końcowego.
 			\item Podobieństwo cząstkowe rozwiązań znajdowanych przez dany algorytm na danej instancji jest podobne dla różnych algorytmów.
 		\end{itemize}

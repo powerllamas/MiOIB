@@ -17,7 +17,7 @@ def compute(inst, alg, n, max_time):
     startpoints = []
     start = time.clock()
     for i in range(n):
-        if alg[0] == "greedy":
+        if alg[0] == "Greedy":
             startpoint = Random().solve(inst)
             startpoints.append(startpoint)
             results.append(alg[1].solve(inst, startpoint))
@@ -118,14 +118,16 @@ if __name__ == '__main__':
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
-    parser.add_argument('-R', '--random', action='append_const', dest='choosen_algorithms',
-                        const='random', help='Turns on random algorithm')
-    parser.add_argument('-H', '--heuristic', action='append_const', dest='choosen_algorithms',
-                        const='heuristic', help='Turns on heuristic algorithm')
-    parser.add_argument('-G', '--greedy', action='append_const', dest='choosen_algorithms',
-                        const='greedy', help='Turns on greedy algorithm')
-    parser.add_argument('-S', '--steepest', action='append_const', dest='choosen_algorithms',
-                        const='steepest', help='Turns on steepest algorithm')
+    parser.add_argument('-R', '--Random', action='append_const', dest='choosen_algorithms',
+                        const='Random', help='Turns on Random algorithm')
+    parser.add_argument('-M', '--Multirandom', action='append_const', dest='choosen_algorithms',
+                        const='Multirandom', help='Turns on Multirandom algorithm')
+    parser.add_argument('-H', '--Heuristic', action='append_const', dest='choosen_algorithms',
+                        const='Heuristic', help='Turns on Heuristic algorithm')
+    parser.add_argument('-G', '--Greedy', action='append_const', dest='choosen_algorithms',
+                        const='Greedy', help='Turns on Greedy algorithm')
+    parser.add_argument('-S', '--Steepest', action='append_const', dest='choosen_algorithms',
+                        const='Steepest', help='Turns on Steepest algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
@@ -134,7 +136,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     algorithms = []
-    all_algorithms = [("greedy", local_search.LocalSearch(greedy=True)), ("steepest", local_search.LocalSearch()), ("heuristic", heuristic.Heuristic()), ("random", random_solver.Random())]
+    all_algorithms = [("Greedy", local_search.LocalSearch(greedy=True)), ("Steepest", local_search.LocalSearch()), ("Heuristic", heuristic.Heuristic()), ("Random", random_solver.Random()), ("Multirandom", random_solver.Random())]
 
     for alg in all_algorithms:
         if alg[0] in args.choosen_algorithms:
@@ -168,7 +170,7 @@ if __name__ == '__main__':
             optimal_solutions_values[instance_name] = value
 
     n = 10
-    max_time = 180
+    max_time = 18
     elapsed = 0
     for instance_tuple in instances:
         inst = instance_tuple[1]
@@ -180,24 +182,29 @@ if __name__ == '__main__':
             print "\tAlgorithm: " + alg[0]
 
 
-            if alg[0] == "heuristic":
+            if alg[0] == "Heuristic":
                 n = 1000
-            elif alg[0] == "random":
+            elif alg[0] == "Random" or alg[0] == "Multirandom":
                 n = 5000000                
-            elif alg[0] == "greedy":
+            elif alg[0] == "Greedy":
                 n = 100
             else:
                 n = 10
 
-            if alg[0] in ["greedy", "steepest"]:
+            if alg[0] in ["Greedy", "Steepest"]:
                 max_time = 180
 
             elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)
-            print "\t\ttime: "+str(elapsed)
-            if alg[0] in ["greedy", "steepest"]:
-                max_time = elapsed*1.001
-
+            if alg[0] in ["Greedy", "Steepest"]:
+                max_time = mean_time*1.001
+               
+            start = time.clock()
             solutions_performance = [float(eval_.evaluate(solution)) for solution in solutions]
+            stop = time.clock()
+            eval_time = stop - start
+            if alg[0] == "Multirandom":
+                elapsed += eval_time
+            
             solutions_quality =  [(float(optimal_solutions_values[instance_name]) / solution_performance) * 100.0
                                 for solution_performance in solutions_performance]
 
@@ -209,15 +216,15 @@ if __name__ == '__main__':
             binary_similarity_sd = sd(binary_similarities, mean_binary_similarity)
             partial_similarity_sd = sd(partial_similarities, mean_partial_similarity)
 
-            if(alg[0] == "greedy"):
+            if(alg[0] == "Greedy"):
                 startpoints_performance = [float(eval_.evaluate(startpoint)) for startpoint in startpoints]
                 startpoints_quality =  [(float(optimal_solutions_values[instance_name]) / startpoint_performance) * 100.0
                                 for startpoint_performance in startpoints_performance]
                 gs_comparision[instance_name] = zip(startpoints_quality, solutions_quality)
                 bests, means = multirandom_statistics(solutions_quality)
                 write_multirandom_statistics(solutions_quality, bests, means, instance_name)
-                solutions_performance = solutions_performance[:10]
-                solutions_quality = solutions_quality[:10]
+                #solutions_performance = solutions_performance[:10]
+                #solutions_quality = solutions_quality[:10]
                 write_gs_comparision(gs_comparision)
                 write_gnuplot_multirandom_commands(gs_comparision)
 
@@ -226,8 +233,8 @@ if __name__ == '__main__':
             #worst_result = max(solutions_performance)
             best_quality = optimal_solutions_values[instance_name] / best_result * 100.0
             #worst_quality = optimal_solutions_values[instance_name] / worst_result * 100.0
-            mean_quality = mean(solutions_quality)
-            quality_sd = sd(solutions_quality, mean_quality)
+            mean_quality = mean(solutions_quality[:10])
+            quality_sd = sd(solutions_quality[:10], mean_quality)
 
             results[alg[0]][(instance_name, len(inst))]["quality"] = mean_quality
             results[alg[0]][(instance_name, len(inst))]["time"] = mean_time
@@ -239,7 +246,8 @@ if __name__ == '__main__':
             results[alg[0]][(instance_name, len(inst))]["z-binary_similarity_sd"] = binary_similarity_sd
             results[alg[0]][(instance_name, len(inst))]["z-partial_similarity_sd"] = partial_similarity_sd
             #results[alg[0]][(instance_name, len(inst))]["worst_quality"] = worst_quality
-
+            
+            print "\t\ttime: "+str(elapsed)
             print "\t\tMean Time: " + str(mean_time)
             print "\t\tMean result quality: " + str(mean_quality)
             print "\t\tBest result quality: " + str(best_quality)

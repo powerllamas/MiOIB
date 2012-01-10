@@ -156,40 +156,46 @@ set xtics rotate by 45
 set xtics out
 set xtics offset -0.75,-1
 set key box
-files = "random.dat heuristic.dat greedy.dat steepest.dat"
+files = "Random Heuristic Greedy Steepest"
 
 set output "quality.pdf"
-set ylabel "Quality"
+set ylabel "quality [%]"
 set key right bottom
-plot for [f in files] f using 1:5:6:xticlabels(2) with yerrorlines title f  
+plot for [f in files] f.".dat" using 1:5:6:xticlabels(2) with yerrorlines title f  
 unset output
 
 set output "effectivenes.pdf"
-set ylabel "Effectiveness"
-plot for [f in files] f using 1:4:xticlabels(2) with linespoints title f   
+set ylabel "effectiveness"
+plot for [f in files." Multirandom"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "best_quality.pdf"
-set ylabel "Best Quality"
-plot for [f in files] f using 1:3:xticlabels(2) with linespoints title f  
+set ylabel "best quality [%]"
+plot for [f in files] f.".dat" using 1:3:xticlabels(2) with linespoints title f  
 unset output
 
 set output "time.pdf"
-set ylabel "Time"
+set ylabel "time [s]"
 set key left top
-plot for [f in files] f using 1:7:xticlabels(2) with linespoints title f   
+plot for [f in files." Multirandom"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
+unset output
+
+set output "time_hr.pdf"
+set ylabel "time [s]"
+set key left top
+plot for [f in "random heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
 set key left top box
 set yrange [0:1]
 
 set output "binary_similarity.pdf"
-set ylabel "Binary Similarity"
+set ylabel "binary similarity"
 plot for [f in "greedy steepest random"] f.".dat" using 1:8:9:xticlabels(2) with yerrorlines title f   
 unset output
 
 set output "partial_similarity.pdf"
-set ylabel "Partial Similarity"
+set ylabel "partial similarity"
 plot for [f in "greedy steepest random"] f.".dat" using 1:10:11:xticlabels(2) with yerrorlines title f   
 unset output
 
@@ -199,8 +205,8 @@ unset yrange
 
 set yrange[0:105]
 set xrange[0:105]
-set ylabel "End quality"
-set xlabel "Startpoint quality"
+set ylabel "end quality"
+set xlabel "startpoint quality"
 set nokey
 
 set output "gs_comparision_nug30.pdf"
@@ -248,8 +254,8 @@ set output "gs_comparision_tai40b.pdf"
  unset output
 
 set key right bottom
-set ylabel "Quality"
-set xlabel "Number of restarts"
+set ylabel "quality"
+set xlabel "number of restarts"
 
 set output "multirandom_kra30a.pdf"
  plot "multirandom_kra30a.dat" using 1:2 title columnheader, "multirandom_kra30a.dat" using 1:3 title columnheader, "multirandom_kra30a.dat" using 1:4 title columnheader with linespoints
