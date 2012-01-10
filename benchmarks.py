@@ -204,6 +204,8 @@ if __name__ == '__main__':
                 n = 5000000                
             elif alg[0] in ["Greedy", "Tabu"]:
                 n = 100
+            elif alg[0] in ["Annealing"]:
+                n = 1
             else:
                 n = 10
 

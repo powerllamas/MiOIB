@@ -156,7 +156,7 @@ set xtics rotate by 45
 set xtics out
 set xtics offset -0.75,-1
 set key box
-files = "Random Heuristic Greedy Steepest"
+files = "Random Heuristic Greedy Steepest Annealing Tabu"
 
 set output "quality.pdf"
 set ylabel "quality [%]"
