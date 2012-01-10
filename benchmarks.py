@@ -200,14 +200,14 @@ if __name__ == '__main__':
 
             if alg[0] == "Heuristic":
                 n = 1000
-            elif alg[0] == "Random" or alg[0] == "Multirandom":
+            elif alg[0] in ["Random", "Multirandom"]:
                 n = 5000000                
-            elif alg[0] == "Greedy":
+            elif alg[0] in ["Greedy", "Tabu"]:
                 n = 100
             else:
                 n = 10
 
-            if alg[0] in ["Greedy", "Steepest"]:
+            if alg[0] in ["Greedy", "Steepest", "Annealing", "Tabu"]:
                 max_time = 180
 
             elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)
