@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
       formatter_class=argparse.RawDescriptionHelpFormatter,
-      description = "Benchmark for optimasation algorithms",
+      description = "Benchmark for optimisation algorithms.",
       prog = "benchmarks",
       epilog = u"Authors:\t\tKrzysztof Urban & Tomasz Ziętkiewicz. 2011\nCopyright:\tThis is free software: you are free to change and redistribute it.\n\t\tThere is NO WARRANTY, to the extent permitted by law."
       )
