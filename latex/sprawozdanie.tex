@@ -49,12 +49,17 @@
 	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
-	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
+	Rozwiązanie jest reprezentowane przez permutacja zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
 	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
-		\subsubsection{Czas działania}Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random} i heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania dwóch pierwszych pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
+		\subsubsection{Czas działania}
+		
+			Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random} i heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania dwóch pierwszych pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
+
+			Łatwo zauważyć, że \emph{Greedy} sprawuje się lepiej od~\emph{Steepest} dla wszystkich badanych instancji, jeśli chodzi o czas działania. Wynika to ze sposobu, w~który badane jest sąsiedztwo w~tych dwóch wersjach \emph{przeszukiwania lokalnego} -- \emph{Greedy} przeszukuje je do momentu znalezienia rozwiązania lepszego niż obecne, natomiast \emph{Steepest} przeszukuje całe. Teoretycznie algorytm \emph{Steepest} może zbiegać szybciej do optimum lokalnego, co dawałoby mu przewagę nad \emph{Greedy}, jednak w~naszym eksperymencie efekt ten nie został zaobserwowany.
+
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/time}
 				\caption{Porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}\label{fig:time}}
