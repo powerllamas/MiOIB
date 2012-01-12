@@ -72,7 +72,7 @@ class SimulatedAnnealing(object):
         return len(neighbours)
 
     def _stop(self, current):
-        if self._stop_best > current[1]:
+        if self._stop_best >= current[1]:
             self._stop_counter += 1
         else:
             self._stop_best = current[1]
