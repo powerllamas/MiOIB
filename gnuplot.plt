@@ -177,6 +177,7 @@ unset output
 
 set output "best_quality.pdf"
 set ylabel "best quality [%]"
+set key right bottom
 plot for [f in files] f.".dat" using 1:3:xticlabels(2) with linespoints title f  
 unset output
 
@@ -188,7 +189,7 @@ unset output
 
 set output "time_hr.pdf"
 set ylabel "time [s]"
-set key left top
+set key right top
 plot for [f in "Random Heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
