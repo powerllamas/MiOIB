@@ -183,7 +183,7 @@ unset output
 set output "time_hr.pdf"
 set ylabel "time [s]"
 set key left top
-plot for [f in "random heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
+plot for [f in "Random Heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
 set key left top box
@@ -191,12 +191,12 @@ set yrange [0:1]
 
 set output "binary_similarity.pdf"
 set ylabel "binary similarity"
-plot for [f in "greedy steepest random"] f.".dat" using 1:8:9:xticlabels(2) with yerrorlines title f   
+plot for [f in "Greedy Steepest Random"] f.".dat" using 1:8:9:xticlabels(2) with yerrorlines title f   
 unset output
 
 set output "partial_similarity.pdf"
 set ylabel "partial similarity"
-plot for [f in "greedy steepest random"] f.".dat" using 1:10:11:xticlabels(2) with yerrorlines title f   
+plot for [f in "Greedy Steepest Random"] f.".dat" using 1:10:11:xticlabels(2) with yerrorlines title f   
 unset output
 
 set xtics norotate
