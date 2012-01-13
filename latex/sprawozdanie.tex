@@ -78,7 +78,7 @@
 				\caption{Porównanie czasu działania algorytmu \emph{Random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
 			\end{figure}
 
-		\subsubsection{Średnia jakość rozwiązania}
+		\subsubsection{Średnia jakość rozwiązania\label{ss:meanquality}}
 			Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla rozwiązania optymalnego (znanego apriori) do wartości funkcji celu dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (ze względu na skończoną precyzję reprezentacji liczb rzeczywistych w~pamięci komputera najgorsze rozwiązania mogą mieć jakość równą 0).
 
 
@@ -92,11 +92,13 @@
 
 		\subsubsection{Jakość najlepszego rozwiązania}
 
-			Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+			Na rysunku \ref{fig:best_quality} pokazano porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+
+			Relacje między poszczególnymi algorytmami opisane przy okazji analizy średniej jakości rozwiązań w~sekcji \ref{ss:meanquality} pozostają w~mocy również dla jakości najlepszego znalezionego rozwiązania, poza kilkoma obserwacjami. Pierwsza zmiana, to zdecydowanie lepsza pozycja \emph{Random}. Jest to spodziewane i~łatwo wytłumaczalne -- 
 
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
-				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
+				\caption{Porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
 			\end{figure}
 
 		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
