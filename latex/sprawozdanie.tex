@@ -46,7 +46,7 @@
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel~Core i5~2.4 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
 	Rozwiązanie jest reprezentowane przez permutacja zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
@@ -108,6 +108,8 @@
 		\subsubsection{Efektywność}
 
 			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Heuristic}, na rysunku~\ref{fig:effectivenes_fast}.
+
+
 
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/effectivenes}
