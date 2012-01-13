@@ -55,10 +55,18 @@
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
 		\subsubsection{Czas działania}
-		
+
+
 			Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random} i heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania dwóch pierwszych pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
 
+
 			Łatwo zauważyć, że \emph{Greedy} sprawuje się lepiej od~\emph{Steepest} dla wszystkich badanych instancji, jeśli chodzi o czas działania. Wynika to ze sposobu, w~który badane jest sąsiedztwo w~tych dwóch wersjach \emph{przeszukiwania lokalnego} -- \emph{Greedy} przeszukuje je do momentu znalezienia rozwiązania lepszego niż obecne, natomiast \emph{Steepest} przeszukuje całe. Teoretycznie algorytm \emph{Steepest} może zbiegać szybciej do optimum lokalnego, co dawałoby mu przewagę nad \emph{Greedy}, jednak w~naszym eksperymencie efekt ten nie został zaobserwowany.
+
+
+			Czasy wykonywania dla \emph{Random} oraz \emph{Heuristic} nie wymagają większego komentarza -- algorytm losowy jest szybszy niż heurystyka, gdyż wymaga jedynie wygenerowania losowej permutacji, podczas gdy heurystyka musi również zbadać funkcje odległości i~przepływu.
+
+
+			Na podstawie obserwacji czasu działania algorytmów \emph{przeszukiwania lokalnego}, można wysnuć wnioski o charakterze badanych instancji. Nie jest zaskoczeniem, że wraz z~ich rozmiarem rośnie czas wykonywania algorytmów; warto jednak zaobserwować, że w~przypadku instancji \emph{tai40b} czas wykonywania jest dwa razy większy niż dla instancji \emph{lipa40a}, mającej przecież ten sam rozmiar. Ponieważ rozmiar przeszukiwanego sąsiedztwa jest ten sam, powodem musi być zbieżność do optimów lokalnych -- prawdopodobnie są one nieliczne, bądź też hiperpłaszczyzna problemu ma wiele obszarów płaskich, po których algorytmy krążą w~poszukiwaniu spadku.
 
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/time}
