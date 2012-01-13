@@ -166,7 +166,13 @@ unset output
 
 set output "effectivenes.pdf"
 set ylabel "effectiveness"
+set key right top
 plot for [f in "Greedy Steepest Annealing Tabu Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
+unset output
+
+set output "effectivenes_fast.pdf"
+set ylabel "effectiveness"
+plot for [f in "Random Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "best_quality.pdf"
