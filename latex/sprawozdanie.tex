@@ -78,13 +78,22 @@
 				\caption{Porównanie czasu działania algorytmu \emph{Random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
 			\end{figure}
 
-		\subsubsection{Średnia jakość rozwiązania}Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek optymalnej globalnie wartości funkcji celu(znanej apriori) do wartości funkcji celu otrzymanej dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (w wyniku skończonej precyzji liczb rzeczywistych w komputerze najgorsze rozwiązania mogą mieć jakość równą 0).
+		\subsubsection{Średnia jakość rozwiązania}
+			Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla rozwiązania optymalnego (znanego apriori) do wartości funkcji celu dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (ze względu na skończoną precyzję reprezentacji liczb rzeczywistych w~pamięci komputera najgorsze rozwiązania mogą mieć jakość równą 0).
+
+
+			Na podstawie wykresu można wydzielić dwie grupy algorytmów ze względu na~średnią jakość rozwiązania: \emph{Greedy} i~\emph{Steepest} oraz \emph{Random} i~\emph{Heuristic}. Pierwsza z~grup radzi sobie zdecydowanie lepiej, wyniki dla obu algorytmów są niemal identyczne -- minimalna przewaga któregoś z~nich zależy wyłącznie od instancji. Najgorzej, co nie jest zaskoczeniem, radzi sobie algorytm losowy. Prosta heurystyka radzi sobie tylko odrobinę lepiej, chociaż dla niektórych instancji (tutaj dla \emph{esc16a}) daje zaskakująco dobre rezultaty, zbliżone jakościowo do tych uzyskiwanych za pomocą algorytmów \emph{przeszukiwania lokalnego}.
+
+
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/quality}
 				\caption{Porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:quality}}
 			\end{figure}
 
-		\subsubsection{Jakość najlepszego rozwiązania}Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+		\subsubsection{Jakość najlepszego rozwiązania}
+
+			Na rysunku \ref{fig:best_quality} pokazano porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
 				\caption{Porównanie najlepszych jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
