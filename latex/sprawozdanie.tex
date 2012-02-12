@@ -46,7 +46,7 @@
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel Core 2 Duo 2.0 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel~Core i5~2.4 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
 	Rozwiązanie jest reprezentowane przez permutacja zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
@@ -92,19 +92,33 @@
 
 		\subsubsection{Jakość najlepszego rozwiązania}
 
-			Na rysunku \ref{fig:best_quality} pokazano porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}.
+			Na rysunku \ref{fig:best_quality} pokazano porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP} spośród 10 wywołań.
 
-			Relacje między poszczególnymi algorytmami opisane przy okazji analizy średniej jakości rozwiązań w~sekcji \ref{ss:meanquality} pozostają w~mocy również dla jakości najlepszego znalezionego rozwiązania, poza kilkoma obserwacjami. Pierwsza zmiana, to zdecydowanie lepsza pozycja \emph{Random}. Jest to spodziewane i~łatwo wytłumaczalne -- 
+
+			Porównanie wyników jakości najlepszego rozwiązania z~wynikami średniej jakości rozwiązań (sekcja \ref{ss:meanquality}) dla danych instancji i~algorytmów pozwala nam powiedzieć coś o~determiniźmie uzyskiwanych rezultatów. Wszystkie algorytmy poza \emph{Heuristic} są~niedeterministyczne, co wynika z~losowego wyboru punktu startowego, jednak niektóre charakteryzują się większym rozrzutem uzyskiwanych wyników. Na podstawie wartości odchylenia standardowego przedstawionych na wykresie \ref{fig:quality} oraz informacji o~najlepszych znalezionych rozwiązaniach można powiedzieć, że najbardziej losowy jest algorytm \emph{Random} (co nie jest zaskoczeniem), natomiast dla \emph{Greedy} i~\emph{Steepest} istnieje duża zbieżność do rozwiązania o~określonej jakości (przy czym jest ona zdecydowanie większa dla algorytmu \emph{Steepest}, co można zauważyć na podstawie wyników dla instancji \emph{chr12a}).
+
+
+			Wracając zaś do~samej jakości najlepszych odnalezionych rozwiązań, zdecydowanie najlepiej radzi sobie \emph{Greedy}, dając lepsze rezultaty od pozostałych algorytmów dla wszystkich badanych instancji i~znajdując rezultaty bardzo bliskie optimum.
 
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
 				\caption{Porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
 			\end{figure}
 
-		\subsubsection{Efektywność}Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}.
+		\subsubsection{Efektywność}
+
+			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Heuristic}, na rysunku~\ref{fig:effectivenes_fast}.
+
+
+
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/effectivenes}
 				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}\label{fig:effectivenes}}
+			\end{figure}
+
+			\begin{figure}[h]
+				\includegraphics[scale=0.90]{../results/effectivenes_fast}
+				\caption{Porównanie średniej efektywności (jakość/czas) algorytmów dla różnych instancji \emph{QAP}\label{fig:effectivenes_fast}}
 			\end{figure}
 
 

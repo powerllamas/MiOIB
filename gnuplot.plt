@@ -166,23 +166,30 @@ unset output
 
 set output "effectivenes.pdf"
 set ylabel "effectiveness"
-plot for [f in files." Multirandom"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
+set key right top
+plot for [f in "Greedy Steepest Annealing Tabu Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
+unset output
+
+set output "effectivenes_fast.pdf"
+set ylabel "effectiveness"
+plot for [f in "Random Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "best_quality.pdf"
 set ylabel "best quality [%]"
+set key right bottom
 plot for [f in files] f.".dat" using 1:3:xticlabels(2) with linespoints title f  
 unset output
 
 set output "time.pdf"
 set ylabel "time [s]"
 set key left top
-plot for [f in files." Multirandom"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
+plot for [f in files] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
 set output "time_hr.pdf"
 set ylabel "time [s]"
-set key left top
+set key right top
 plot for [f in "Random Heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
