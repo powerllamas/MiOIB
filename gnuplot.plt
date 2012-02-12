@@ -165,13 +165,13 @@ plot for [f in files] f.".dat" using 1:5:6:xticlabels(2) with yerrorlines title 
 unset output
 
 set output "effectivenes.pdf"
-set ylabel "effectiveness"
+set ylabel "effectiveness (Quality [%] / time[s])"
 set key right top
 plot for [f in "Greedy Steepest Annealing Tabu Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
 set output "effectivenes_fast.pdf"
-set ylabel "effectiveness"
+set ylabel "effectiveness (Quality [%] / time[s])"
 plot for [f in "Random Heuristic"] f.".dat" using 1:4:xticlabels(2) with linespoints title f   
 unset output
 
@@ -227,6 +227,16 @@ set output "gs_comparision_kra30a.pdf"
 set output "gs_comparision_nug24.pdf"
  plot "gs_comparision_nug24.dat" using 1:2 notitle
  unset output
+ 
+set output "gs_comparision_nug24_zoom.pdf"
+ set xrange[65:85]
+ set yrange[90:100]
+ plot "gs_comparision_nug24.dat" using 1:2 notitle
+ unset output
+ 
+set yrange[0:105]
+set xrange[0:105]
+ 
 
 set output "gs_comparision_had16.pdf"
  plot "gs_comparision_had16.dat" using 1:2 notitle
@@ -265,9 +275,12 @@ set ylabel "quality"
 set xlabel "number of restarts"
 
 set output "multirandom_kra30a.pdf"
+ set yrange[85:100]
  plot "multirandom_kra30a.dat" using 1:2 title columnheader, "multirandom_kra30a.dat" using 1:3 title columnheader, "multirandom_kra30a.dat" using 1:4 title columnheader with linespoints
  unset output
-
+ 
+set yrange[0:100]
+ 
 set output "multirandom_nug24.pdf"
  plot "multirandom_nug24.dat" using 1:2 title columnheader, "multirandom_nug24.dat" using 1:3 title columnheader, "multirandom_nug24.dat" using 1:4 title columnheader with linespoints
  unset output
@@ -281,9 +294,12 @@ set output "multirandom_had20.pdf"
  unset output
 
 set output "multirandom_bur26a.pdf"
+ set yrange[95:101]
  plot "multirandom_bur26a.dat" using 1:2 title columnheader, "multirandom_bur26a.dat" using 1:3 title columnheader, "multirandom_bur26a.dat" using 1:4 title columnheader with linespoints
  unset output
-
+ 
+ set yrange[0:100]
+ 
 set output "multirandom_rou20.pdf"
  plot "multirandom_rou20.dat" using 1:2 title columnheader, "multirandom_rou20.dat" using 1:3 title columnheader, "multirandom_rou20.dat" using 1:4 title columnheader with linespoints
  unset output
@@ -297,6 +313,7 @@ set output "multirandom_esc16a.pdf"
  unset output
 
 set output "multirandom_chr12a.pdf"
+ set yrange[20:100]
  plot "multirandom_chr12a.dat" using 1:2 title columnheader, "multirandom_chr12a.dat" using 1:3 title columnheader, "multirandom_chr12a.dat" using 1:4 title columnheader with linespoints
  unset output
 

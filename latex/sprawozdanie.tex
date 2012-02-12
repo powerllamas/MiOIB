@@ -30,7 +30,7 @@
 				\item{ $W$ (,,wydziały") }
 			\end{itemize}
 			}
-		\item{dwie funkcje:
+		\item{dwie macierze:
 			\begin{itemize}
 				\item{ odległości $o:  L \times L \rightarrow \mathbb{R} $}
 				\item{ przepływów $p: W \times W \rightarrow \mathbb{R} $}
@@ -79,10 +79,10 @@
 			\end{figure}
 
 		\subsubsection{Średnia jakość rozwiązania\label{ss:meanquality}}
-			Na rysunku \ref{fig:quality} pokazano porównanie średniej jakości rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}. Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla rozwiązania optymalnego (znanego apriori) do wartości funkcji celu dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (ze względu na skończoną precyzję reprezentacji liczb rzeczywistych w~pamięci komputera najgorsze rozwiązania mogą mieć jakość równą 0).
+Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla rozwiązania optymalnego (znanego apriori) do wartości funkcji celu dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (ze względu na skończoną precyzję reprezentacji liczb rzeczywistych w~pamięci komputera najgorsze rozwiązania mogą mieć jakość równą 0).
 
 
-			Na podstawie wykresu można wydzielić dwie grupy algorytmów ze względu na~średnią jakość rozwiązania: \emph{Greedy} i~\emph{Steepest} oraz \emph{Random} i~\emph{Heuristic}. Pierwsza z~grup radzi sobie zdecydowanie lepiej, wyniki dla obu algorytmów są niemal identyczne -- minimalna przewaga któregoś z~nich zależy wyłącznie od instancji. Najgorzej, co nie jest zaskoczeniem, radzi sobie algorytm losowy. Prosta heurystyka radzi sobie tylko odrobinę lepiej, chociaż dla niektórych instancji (tutaj dla \emph{esc16a}) daje zaskakująco dobre rezultaty, zbliżone jakościowo do tych uzyskiwanych za pomocą algorytmów \emph{przeszukiwania lokalnego}.
+			Na podstawie wykresu \ref{fig:quality} można wydzielić dwie grupy algorytmów ze względu na~średnią jakość rozwiązania: \emph{Greedy} i~\emph{Steepest} oraz \emph{Random} i~\emph{Heuristic}. Pierwsza z~grup radzi sobie zdecydowanie lepiej, wyniki dla obu algorytmów są niemal identyczne -- minimalna przewaga któregoś z~nich zależy wyłącznie od instancji. Najgorzej, co nie jest zaskoczeniem, radzi sobie algorytm losowy. Prosta heurystyka radzi sobie tylko odrobinę lepiej, chociaż dla niektórych instancji (tutaj dla \emph{esc16a}) daje zaskakująco dobre rezultaty, zbliżone jakościowo do tych uzyskiwanych za pomocą algorytmów \emph{przeszukiwania lokalnego}.
 
 
 			\begin{figure}[h]
@@ -92,10 +92,7 @@
 
 		\subsubsection{Jakość najlepszego rozwiązania}
 
-			Na rysunku \ref{fig:best_quality} pokazano porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP} spośród 10 wywołań.
-
-
-			Porównanie wyników jakości najlepszego rozwiązania z~wynikami średniej jakości rozwiązań (sekcja \ref{ss:meanquality}) dla danych instancji i~algorytmów pozwala nam powiedzieć coś o~determiniźmie uzyskiwanych rezultatów. Wszystkie algorytmy poza \emph{Heuristic} są~niedeterministyczne, co wynika z~losowego wyboru punktu startowego, jednak niektóre charakteryzują się większym rozrzutem uzyskiwanych wyników. Na podstawie wartości odchylenia standardowego przedstawionych na wykresie \ref{fig:quality} oraz informacji o~najlepszych znalezionych rozwiązaniach można powiedzieć, że najbardziej losowy jest algorytm \emph{Random} (co nie jest zaskoczeniem), natomiast dla \emph{Greedy} i~\emph{Steepest} istnieje duża zbieżność do rozwiązania o~określonej jakości (przy czym jest ona zdecydowanie większa dla algorytmu \emph{Steepest}, co można zauważyć na podstawie wyników dla instancji \emph{chr12a}).
+			Porównanie wyników jakości najlepszego rozwiązania (rysunek \ref{fig:best_quality}) z~wynikami średniej jakości rozwiązań (sekcja \ref{ss:meanquality}) dla danych instancji i~algorytmów pozwala nam powiedzieć coś o~determiniźmie uzyskiwanych rezultatów. Wszystkie algorytmy poza \emph{Heuristic} są~niedeterministyczne, co wynika z~losowego wyboru punktu startowego, jednak niektóre charakteryzują się większym rozrzutem uzyskiwanych wyników. Na podstawie wartości odchylenia standardowego przedstawionych na wykresie \ref{fig:quality} oraz informacji o~najlepszych znalezionych rozwiązaniach można powiedzieć, że najbardziej losowy jest algorytm \emph{Random} (co nie jest zaskoczeniem), natomiast dla \emph{Greedy} i~\emph{Steepest} istnieje duża zbieżność do rozwiązania o~określonej jakości (przy czym jest ona zdecydowanie większa dla algorytmu \emph{Steepest}, co można zauważyć na podstawie wyników dla instancji \emph{chr12a}).
 
 
 			Wracając zaś do~samej jakości najlepszych odnalezionych rozwiązań, zdecydowanie najlepiej radzi sobie \emph{Greedy}, dając lepsze rezultaty od pozostałych algorytmów dla wszystkich badanych instancji i~znajdując rezultaty bardzo bliskie optimum.
@@ -127,11 +124,16 @@
 		\subsubsection{Jakość rozwiązania początkowego vs jakość rozwiązania końcowego}
 			Na rysunkach \ref{fig:gs.nug24}, \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} widać zależność między rozwiązaniem początkowym a~końcowym dla wybranych instancji.
 			
-			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24}. Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięć różnych (pod względem oceny) optimów lokalnych, świadczy o~tym wrażenie umiejscowienia punktów danych ,,na siatce".
+			Dla większości instancji wykresy te były podobne do rys.~\ref{fig:gs.nug24} (przybliżenie na rys.~\ref{fig:gs.nug24_zoom}). Świadczy to o tym, że w~tych instancjach optima lokalne nie były dużo gorsze od optimum globalnego, pozwalając na znalezienie dobrego rozwiązania w~każdym przebiegu. Ciekawsze są rysunki \ref{fig:gs.chr12a} i~\ref{fig:gs.esc16a} -- w~instancji \emph{chr12a} jakość rozwiązań początkowych była zdecydowanie niższa, nie przekraczając 40\%. Nie zawsze też znalezione rozwiązanie było bliskie optimum, w~większości przypadków algorytm kończył pracę w~punktach o~ocenie między 40\% a~95\%. Świadczy to o~tym, że w~krajobrazie tej instancji istnieje wiele optimów lokalnych, często zdecydowanie gorszych od optimum globalnego. Z~kolei w~instancji \emph{esc16a} rozwiązania początkowe były dość dobrej jakości -- między 50\% a~80\% -- zbieżność do optimum również była o~wiele lepsza, żadne z~rozwiązań końcowych nie miało oceny gorszej niż 80\%, często również udawało się znaleźć optimum globalne. Z~rozmieszczenia punktów można też wnioskować, że istnieje pięć różnych (pod względem oceny) optimów lokalnych, świadczy o~tym wrażenie umiejscowienia punktów danych ,,na siatce".
 			
 			\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/gs_comparision_nug24.pdf}
 				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24}}				
+			\end{figure}
+			
+			\begin{figure}[h]
+				\includegraphics[scale=0.90]{../results/gs_comparision_nug24_zoom.pdf}
+				\caption{Zależność między rozwiązaniem startowym a~końcowym -- instancja \emph{nug24}\label{fig:gs.nug24_zoom}, przybliżenie}				
 			\end{figure}
 			
 			\begin{figure}[h]
@@ -145,7 +147,7 @@
 			\end{figure}
 		
 		\subsubsection{Wpływ liczby restartów na jakość rozwiązania}		
-			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub zbliżoną. Tak było np. w przypadku instancji \emph{kra30a} i \emph{bur26a}, co pokazano odpowiednio na rys.~\ref{fig:mr.kra30a} i \ref{fig:mr.bur26a}. Tylko dla instancji \emph{chra12a} zauważono znaczącą poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys.~\ref{fig:mr.chr12a}. Pierwsze rozwiązanie dla tej instancji miało jakość poniżej 70\%, co umożliwiło poprawę rozwiązania do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys.~\ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych gorszych od optimum globalnego, w których algorytm ,,utyka". W przypadku pozostałych instancji krajobraz musi być bardziej ,,gładki" lub ,,wyższy". W pierwszym przypadku algorytm niezależnie od pkt.~startowego znajduje optimum globalne -- stąd brak różnic w kolejnych uruchomieniach -- tak jest w przypadku instancji \emph{bur26a} co widać na rys.~\ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna -- tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
+			W przypadku większości testowanych instancji nie zauważono żadnego wpływu ilości restartów multi-random na jakość najlepszego znalezionego do danego momentu rozwiązania. Działo się tak dlatego, że w większości przypadków algorytmy już za pierwszym razem osiągały jakość  100\%  lub bardzo zbliżoną. Tak było np. w przypadku instancji \emph{bur26a}, co pokazano na rys.~\ref{fig:mr.bur26a}. W przypadku niektórych instancji pierwsze rozwiązania były bardzo dobre (o jakości ok 90\%) i wraz z następnymi uruchomieniami ich jakość rosła. Tylko dla instancji \emph{chra12a} zauważono znaczącą (większą niż 5\%) poprawę wraz z kolejnymi uruchomieniami, co pokazano na rys.~\ref{fig:mr.chr12a}. Pierwsze rozwiązanie dla tej instancji miało jakość ok 70\%, co umożliwiło poprawę rozwiązania o ok 30\% aż do poziomu 100\%. Różnice te wynikają z odmiennego krajobrazu rozwiązań dla tych instancji: jak widać na rys.~\ref{fig:mr.chr12a} jakość rozwiązania różni się znacznie w zależności od uruchomienia, czyli w zależności od punktu w którym algorytm zaczyna działać. Świadczy to o tym, że w krajobrazie rozwiązań jest dużo optimów lokalnych gorszych od optimum globalnego, w których algorytm ,,utyka". W przypadku pozostałych instancji krajobraz musi być bardziej ,,gładki" lub ,,wyższy". W pierwszym przypadku algorytm niezależnie od pkt.~startowego znajduje optimum globalne -- stąd brak różnic w kolejnych uruchomieniach -- tak jest w przypadku instancji \emph{bur26a} co widać na rys.~\ref{fig:mr.bur26a}. W drugim wszystkie możliwe rozwiązania są blisko rozwiązania optymalnego i stąd poprawa jakości jest na tyle mała, że patrząc na wykresy wydaje się nieistotna -- tak jest w przypadku instancji \emph{kra30a} co widać na rys \ref{fig:mr.kra30a}.
 			\\Ciężko jednoznacznie określić kiedy przerwać ponowne uruchamianie algorytmu. Można kierowaź się jednym lub kilkoma z poniższych warunków:
 			\begin{itemize}
 				\item{odchylenie standardowe jakości rozwiązań jest mniejsze niż określony próg}
