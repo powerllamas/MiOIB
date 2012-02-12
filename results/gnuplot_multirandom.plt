@@ -23,8 +23,8 @@ set output "multirandom_had20.pdf"
  plot "multirandom_had20.dat" using 1:2 title columnheader, "multirandom_had20.dat" using 1:3 title columnheader, "multirandom_had20.dat" using 1:4 title columnheader with linespoints 
  unset output
 
-set output "multirandom_tai40b.pdf"
- plot "multirandom_tai40b.dat" using 1:2 title columnheader, "multirandom_tai40b.dat" using 1:3 title columnheader, "multirandom_tai40b.dat" using 1:4 title columnheader with linespoints 
+set output "multirandom_bur26a.pdf"
+ plot "multirandom_bur26a.dat" using 1:2 title columnheader, "multirandom_bur26a.dat" using 1:3 title columnheader, "multirandom_bur26a.dat" using 1:4 title columnheader with linespoints 
  unset output
 
 set output "multirandom_rou20.pdf"
@@ -43,7 +43,7 @@ set output "multirandom_chr12a.pdf"
  plot "multirandom_chr12a.dat" using 1:2 title columnheader, "multirandom_chr12a.dat" using 1:3 title columnheader, "multirandom_chr12a.dat" using 1:4 title columnheader with linespoints 
  unset output
 
-set output "multirandom_bur26a.pdf"
- plot "multirandom_bur26a.dat" using 1:2 title columnheader, "multirandom_bur26a.dat" using 1:3 title columnheader, "multirandom_bur26a.dat" using 1:4 title columnheader with linespoints 
+set output "multirandom_tai40b.pdf"
+ plot "multirandom_tai40b.dat" using 1:2 title columnheader, "multirandom_tai40b.dat" using 1:3 title columnheader, "multirandom_tai40b.dat" using 1:4 title columnheader with linespoints 
  unset output
 

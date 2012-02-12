@@ -18,8 +18,8 @@ set output "gs_comparision_had20.pdf"
  plot "gs_comparision_had20.dat" using 1:2 notitle
  unset output
 
-set output "gs_comparision_tai40b.pdf"
- plot "gs_comparision_tai40b.dat" using 1:2 notitle
+set output "gs_comparision_bur26a.pdf"
+ plot "gs_comparision_bur26a.dat" using 1:2 notitle
  unset output
 
 set output "gs_comparision_rou20.pdf"
@@ -38,7 +38,7 @@ set output "gs_comparision_chr12a.pdf"
  plot "gs_comparision_chr12a.dat" using 1:2 notitle
  unset output
 
-set output "gs_comparision_bur26a.pdf"
- plot "gs_comparision_bur26a.dat" using 1:2 notitle
+set output "gs_comparision_tai40b.pdf"
+ plot "gs_comparision_tai40b.dat" using 1:2 notitle
  unset output
 
