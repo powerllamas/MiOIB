@@ -16,7 +16,7 @@
 \input{_tytulowa}
 
 \begin{abstract}
-\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{Greedy} i \emph{Steepest}.
+\emph{QAP} jest jednym z podstawowych problemów kombinatorycznych i jest on \emph{NP-trudny}. Stąd do jego rozwiązania stosuje się algorytmy heurystyczne, takie jak przeszukiwanie lokalne. W sprawozdaniu przedstawiamy porównanie dwóch najprostszych wersji Local Search: \emph{Greedy} i \emph{Steepest} oraz bardziej złożonych metaheurystyk: \emph{Tabu Search} i  \emph{Simulated Annealing}.
 \end{abstract}
 
 
@@ -46,10 +46,10 @@
 		\item{rozmieszczanie fabryk, centrów dystrybucji itp.}
 	\end{itemize}
 	
-	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy} i~\emph{Steepest} oraz algorytmu losowego (\emph{Random Search}) i~prostej heurystyki. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel~Core i5~2.4 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
+	\emph{QAP} jest problemem \emph{NP-trudnym}, stąd do znalezienia rozwiązania stosuje się heurystyki. W dalszej części dokumentu przedstawiono porównanie algorytmów przeszukiwania lokalnego (\emph{Local Search}): \emph{Greedy},  \emph{Steepest}, \emph{Tabu Search} oraz~\emph{Simulated Annealing}. Jako punkt odniesienia do porównań służą algorytm losowy (\emph{Random Search}) i~prosta heurystyka. Wszystkie algorytmy zostały zaimplementowane w~języku Python 2.7 i~przetestowane na komputerze z~procesorem Intel~Core i5~2.4 GHz. Do obliczeń wykorzystano jeden rdzeń procesora.
 
 	\subsection{Użyty operator sąsiedztwa\label{ss:operator}}
-	Rozwiązanie jest reprezentowane przez permutacja zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
+	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
 	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
 \section{Eksperymenty}
