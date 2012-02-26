@@ -69,7 +69,7 @@ class SimulatedAnnealing(object):
         r = R()
         solution = r.solve(instance)
         neighbours = list(solution.neighbours())
-        return len(neighbours)
+        return len(neighbours) // 4 or 1
 
     def _stop(self, current):
         if self._stop_best >= current[1]:
