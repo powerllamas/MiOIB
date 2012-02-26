@@ -113,6 +113,8 @@ Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla r
 
 			Wracając zaś do~samej jakości najlepszych odnalezionych rozwiązań, zdecydowanie najlepiej radzi sobie \emph{Greedy}, dając lepsze rezultaty od pozostałych algorytmów dla wszystkich badanych instancji i~znajdując rezultaty bardzo bliskie optimum.
 
+			Algorytm \emph{Tabu Search} radzi sobie tylko trochę lepiej niż losowe przeszukiwanie przestrzeni rozwiązań. Algorytm \emph{Simulated Annealing} osiąga zdecydowanie lepsze wyniki, porównywalne z~rezultatami dla algorytmów zachłannych, ale nie lepsze.
+
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
 				\caption{Porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
@@ -120,8 +122,10 @@ Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla r
 
 		\subsubsection{Efektywność}
 
-			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Heuristic}, na rysunku~\ref{fig:effectivenes_fast}.
+			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Steepest}, na rysunku~\ref{fig:effectivenes_fast}.
 
+
+			Pomijając przeszukiwanie losowe i~heurystykę, najlepszą efektywność mają algorytmy \emph{Tabu Search} i~\emph{Simulated Annealing}, ze wskazaniem na \emph{TS}. Z~kolei jeśli chodzi o~algorytmu przeszukiwania lokalnego, lepiej radzi sobie \emph{Greedy}, co nie jest zaskoczeniem -- jak zaobserwowano, jakość rozwiązań uzyskiwanych przez te algorytmy jest podobna, za to \emph{Greedy} szybciej zbiega się do lokalnego optimum.
 
 
 			\begin{figure}[h]
