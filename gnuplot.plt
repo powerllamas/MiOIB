@@ -187,10 +187,10 @@ set key left top
 plot for [f in files] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
 unset output
 
-set output "time_hr.pdf"
+set output "time_hrt.pdf"
 set ylabel "time [s]"
-set key right top
-plot for [f in "Random Heuristic"] f.".dat" using 1:7:xticlabels(2) with linespoints title f   
+set key left top
+plot for [f in "Random Heuristic Tabu"] f.".dat" using 1:7:xticlabels(2) with linespoints title f
 unset output
 
 set key left top box
