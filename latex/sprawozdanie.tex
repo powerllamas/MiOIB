@@ -56,9 +56,16 @@
 	Skuteczność działania algorytmów \emph{Simulated Annealing} oraz \emph{Tabu Search} w~dużej mierze zależy od doboru odpowiednich parametrów. Kryterium stopu dla obu tych algorytmów jest następujące: jeśli przez 10~ostatnich iteracji nie nastapiła poprawa, zatrzymaj (w~przypadku \emph{SA} jako jedną iterację rozumiemy w~tym kontekście przejście jednego ,,schodka'' temperatury). Pozostałe parametry specyficzne dla konkretnych metod opisane są poniżej.
 		\subsubsection{Parametry \emph{SA}}
 			\begin{itemize}
+			\item{\textbf{Temperatura początkowa.} Wartość ta jest obliczana w~taki sposób, by akceptowane było 95\% ruchów. Szacuje się ją próbkując sąsiedztwo losowo wybranych rozwiązań i~obliczając średnią różnicę wartości funkcji celu między nimi a~ich sąsiadami.}
+			\item{\textbf{Liczba iteracji na jednym poziomie temperatury.} Parametr ten jest obliczany proporcjonalnie do średniego rozmiaru sąsiedztwa, wynosi 25\% tej wartości.}
 			\item{\textbf{Dekrementacja temperatury.} Nowa temperatura obliczana jest poprzez przemnożenie starej przez parametr $\alpha=0.9$.}
 			\end{itemize}
 		\subsubsection{Parametry \emph{TS}}
+			\begin{itemize}
+				\item{textbf{Długość listy tabu.} Wynosi ona 25\% rozmiaru instancji.}
+				\item{textbf{Kryterium aspiracji.} Ruch z~listy tabu jest akceptowany, jeśli poprawia wartość funkcji celu.}
+				\item{textbf{Wybór kandydatów.} Użyte rozwiązanie to elitarna lista kandydatów, której długość wynosi 10\% rozmiaru instancji. Lista jest uzupełniana, jeśli opróżni się do połowy.}
+			\end{itemize}
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
 		\subsubsection{Czas działania}
