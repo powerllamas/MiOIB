@@ -1,4 +1,3 @@
-
 \documentclass{article}
 \usepackage{polski} %może wymagac dokonfigurowania latexa, ale jest lepszy niż standardowy babel'owy [polish]
 \usepackage[utf8]{inputenc}
@@ -52,18 +51,35 @@
 	Rozwiązanie jest reprezentowane przez permutację zbioru wydziałów -- umiejscowienie $m$-tego wydziału na $k$-tym miejscu permutacji przypisuje go do $k$-tej lokalizacji.
 	Użyty operator sąsiedztwa to \emph{2-opt}, czyli sąsiednie rozwiązanie powstaje przez zamianę 2~elementów w~permutacji będącej reprezentacją rozwiązania.
 
+	\subsection{Parametry algorytmów \emph{SA} i~\emph{TS}}
+	Skuteczność działania algorytmów \emph{Simulated Annealing} oraz \emph{Tabu Search} w~dużej mierze zależy od doboru odpowiednich parametrów. Kryterium stopu dla obu tych algorytmów jest następujące: jeśli przez 10~ostatnich iteracji nie nastapiła poprawa, zatrzymaj (w~przypadku \emph{SA} jako jedną iterację rozumiemy w~tym kontekście przejście jednego ,,schodka'' temperatury). Pozostałe parametry specyficzne dla konkretnych metod opisane są poniżej.
+		\subsubsection{Parametry \emph{SA}}
+			\begin{itemize}
+			\item{\textbf{Temperatura początkowa.} Wartość ta jest obliczana w~taki sposób, by akceptowane było 95\% ruchów. Szacuje się ją próbkując sąsiedztwo losowo wybranych rozwiązań i~obliczając średnią różnicę wartości funkcji celu między nimi a~ich sąsiadami.}
+			\item{\textbf{Liczba iteracji na jednym poziomie temperatury.} Parametr ten jest obliczany proporcjonalnie do średniego rozmiaru sąsiedztwa, wynosi 25\% tej wartości.}
+			\item{\textbf{Dekrementacja temperatury.} Nowa temperatura obliczana jest poprzez przemnożenie starej przez parametr $\alpha=0.9$.}
+			\end{itemize}
+		\subsubsection{Parametry \emph{TS}}
+			\begin{itemize}
+				\item{\textbf{Długość listy tabu.} Wynosi ona 25\% rozmiaru instancji.}
+				\item{\textbf{Kryterium aspiracji.} Ruch z~listy tabu jest akceptowany, jeśli poprawia wartość funkcji celu.}
+				\item{\textbf{Wybór kandydatów.} Użyte rozwiązanie to elitarna lista kandydatów, której długość wynosi 10\% rozmiaru instancji. Lista jest uzupełniana, jeśli opróżni się do połowy.}
+			\end{itemize}
 \section{Eksperymenty}
 	\subsection{Porównanie działania algorytmów}
 		\subsubsection{Czas działania}
 
 
-			Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random} i heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania dwóch pierwszych pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
+			Na rysunku \ref{fig:time} pokazano porównanie czasu działania algorytmów dla różnych instancji \emph{QAP}. Ze względu na to, że różnica w czasach wykonywania algorytmu \emph{Random}, \emph{Tabu Search} i~heurystyki jest niewielka względem różnicy, która dzieli je od czasów wykonywania algorytmów \emph{Local Search}, porównanie czasów działania tych trzech algorytmów pokazano osobno na rysunku \ref{fig:time_hr} używając dokładniejszej skali.
 
 
 			Łatwo zauważyć, że \emph{Greedy} sprawuje się lepiej od~\emph{Steepest} dla wszystkich badanych instancji, jeśli chodzi o czas działania. Wynika to ze sposobu, w~który badane jest sąsiedztwo w~tych dwóch wersjach \emph{przeszukiwania lokalnego} -- \emph{Greedy} przeszukuje je do momentu znalezienia rozwiązania lepszego niż obecne, natomiast \emph{Steepest} przeszukuje całe. Teoretycznie algorytm \emph{Steepest} może zbiegać szybciej do optimum lokalnego, co dawałoby mu przewagę nad \emph{Greedy}, jednak w~naszym eksperymencie efekt ten nie został zaobserwowany.
 
 
 			Czasy wykonywania dla \emph{Random} oraz \emph{Heuristic} nie wymagają większego komentarza -- algorytm losowy jest szybszy niż heurystyka, gdyż wymaga jedynie wygenerowania losowej permutacji, podczas gdy heurystyka musi również zbadać funkcje odległości i~przepływu.
+
+
+			Algorytmy \emph{Simulated Annealing} oraz \emph{Tabu Search} mają krótszy czas wykonania niż algorytmy zachłanne dla wszystkich instancji z~wyjątkiem \emph{rou20}. Algorytm \emph{SA} jest zdecydowanie wolniejszy dla instancji \emph{tai40b}, podobnie jak algorytmy zachłanne -- charakterystyki tej nie współdzieli \emph{TS}.
 
 
 			Na podstawie obserwacji czasu działania algorytmów \emph{przeszukiwania lokalnego}, można wysnuć wnioski o charakterze badanych instancji. Nie jest zaskoczeniem, że wraz z~ich rozmiarem rośnie czas wykonywania algorytmów; warto jednak zaobserwować, że w~przypadku instancji \emph{tai40b} czas wykonywania jest dwa razy większy niż dla instancji \emph{lipa40a}, mającej przecież ten sam rozmiar. Ponieważ rozmiar przeszukiwanego sąsiedztwa jest ten sam, powodem musi być zbieżność do optimów lokalnych -- prawdopodobnie są one nieliczne, bądź też hiperpłaszczyzna problemu ma wiele obszarów płaskich, po których algorytmy krążą w~poszukiwaniu spadku.
@@ -74,15 +90,15 @@
 			\end{figure}
 			
 			\begin{figure}[h]
-				\includegraphics[scale=0.90]{../results/time_hr}
-				\caption{Porównanie czasu działania algorytmu \emph{Random} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
+				\includegraphics[scale=0.90]{../results/time_hrt}
+				\caption{Porównanie czasu działania algorytmu \emph{Random}, \emph{Tabu Search} i heurystyki dla różnych instancji \emph{QAP}\label{fig:time_hr}}
 			\end{figure}
 
 		\subsubsection{Średnia jakość rozwiązania\label{ss:meanquality}}
 Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla rozwiązania optymalnego (znanego apriori) do wartości funkcji celu dla danego rozwiązania. Najwyższa możliwa jakość, jaką może osiągnąć rozwiązanie to $100\%$. Im wyższa wartość osiąganej przez rozwiązanie funkcji celu, tym niższa jakość rozwiązania. Wraz z pogarszaniem się rozwiązań będzie ona malała asymptotycznie do zera (ze względu na skończoną precyzję reprezentacji liczb rzeczywistych w~pamięci komputera najgorsze rozwiązania mogą mieć jakość równą 0).
 
 
-			Na podstawie wykresu \ref{fig:quality} można wydzielić dwie grupy algorytmów ze względu na~średnią jakość rozwiązania: \emph{Greedy} i~\emph{Steepest} oraz \emph{Random} i~\emph{Heuristic}. Pierwsza z~grup radzi sobie zdecydowanie lepiej, wyniki dla obu algorytmów są niemal identyczne -- minimalna przewaga któregoś z~nich zależy wyłącznie od instancji. Najgorzej, co nie jest zaskoczeniem, radzi sobie algorytm losowy. Prosta heurystyka radzi sobie tylko odrobinę lepiej, chociaż dla niektórych instancji (tutaj dla \emph{esc16a}) daje zaskakująco dobre rezultaty, zbliżone jakościowo do tych uzyskiwanych za pomocą algorytmów \emph{przeszukiwania lokalnego}.
+			Na podstawie wykresu \ref{fig:quality} można wydzielić dwie grupy algorytmów ze względu na~średnią jakość rozwiązania: \emph{Greedy} i~\emph{Steepest} oraz \emph{Random}, \emph{Heuristic} i~\emph{Tabu Search}. Pierwsza z~grup radzi sobie zdecydowanie lepiej, wyniki dla obu algorytmów są niemal identyczne -- minimalna przewaga któregoś z~nich zależy wyłącznie od instancji. Najgorzej, co nie jest zaskoczeniem, radzi sobie algorytm losowy. Prosta heurystyka radzi sobie tylko odrobinę lepiej, chociaż dla niektórych instancji (tutaj dla \emph{esc16a}) daje zaskakująco dobre rezultaty, zbliżone jakościowo do tych uzyskiwanych za pomocą algorytmów zachłannych. Wyniki \emph{Tabu Search} są lepsze niż dla algorytmu losowego i~heurystyki, nie jest to jednak róznica znacząca, co więcej dla małych instancji heurystyka sprawdziła się zdecydowanie lepiej. Algorytm \emph{Simulated Annealing} nie został zakwalifikowany do żadnej z~dwóch wymienionych grup, ponieważ jego wyniki są niekonsekwentne -- dla niektórych instancji sprawdza sie równie dobrze co przeszukiwanie lokalne, dla pozostałych jego wyniki są bliższe \emph{TS}.
 
 
 			\begin{figure}[h]
@@ -97,6 +113,8 @@ Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla r
 
 			Wracając zaś do~samej jakości najlepszych odnalezionych rozwiązań, zdecydowanie najlepiej radzi sobie \emph{Greedy}, dając lepsze rezultaty od pozostałych algorytmów dla wszystkich badanych instancji i~znajdując rezultaty bardzo bliskie optimum.
 
+			Algorytm \emph{Tabu Search} radzi sobie tylko trochę lepiej niż losowe przeszukiwanie przestrzeni rozwiązań. Algorytm \emph{Simulated Annealing} osiąga zdecydowanie lepsze wyniki, porównywalne z~rezultatami dla algorytmów zachłannych, ale nie lepsze.
+
 		 	\begin{figure}[h]
 				\includegraphics[scale=0.90]{../results/best_quality}
 				\caption{Porównanie jakości najlepszych rozwiązań generowanych przez algorytmy dla różnych instancji \emph{QAP}\label{fig:best_quality}}
@@ -104,8 +122,10 @@ Jakość rozwiązania jest wyrażona przez stosunek wartości funkcji celu dla r
 
 		\subsubsection{Efektywność}
 
-			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Heuristic}, na rysunku~\ref{fig:effectivenes_fast}.
+			Na rysunku \ref{fig:effectivenes} pokazano porównanie średniej efektywności algorytmów dla danych instancji \emph{QAP}, rozumianej jako iloraz średniej jakości uzyskiwanych rozwiązań oraz średniego czasu wywołania danego algorytmu. Na wykresie nie pokazano algorytmu \emph{Random}, ponieważ jego~czas wykonania jest bardzo mały, przez co umieszczenie go na wykresie z~pozostałymi algorytmami nie doprowadziłoby do żadnych ciekawych wniosków. Został on porównany osobno z~algorytmem \emph{Steepest}, na rysunku~\ref{fig:effectivenes_fast}.
 
+
+			Pomijając przeszukiwanie losowe i~heurystykę, najlepszą efektywność mają algorytmy \emph{Tabu Search} i~\emph{Simulated Annealing}, ze wskazaniem na \emph{TS}. Z~kolei jeśli chodzi o~zachłanne algorytmy przeszukiwania lokalnego, lepiej radzi sobie \emph{Greedy}, co nie jest zaskoczeniem -- jak zaobserwowano, jakość rozwiązań uzyskiwanych przez te algorytmy jest podobna, za to \emph{Greedy} szybciej zbiega się do lokalnego optimum.
 
 
 			\begin{figure}[h]
@@ -199,6 +219,7 @@ $$ SolutionSim(s1, s2) = \frac{\sum_{i=0}^{N}{sim(s1[i], s2[i])}}{N}$$
 			\item O~ile \emph{Local Search} sprawdza się dla wszystkich instancji, efektywność 	\emph{Random} zależy od konkretnego przypadku.
 			\item W~żadnym przypadku nie znaleziono związku między jakością rozwiązania startowego a~końcowego.
 			\item Podobieństwo cząstkowe rozwiązań znajdowanych przez dany algorytm na danej instancji jest podobne dla różnych algorytmów.
+			\item Dla wszystkich badanych instancji najlepsze rezultaty uzyskiwały algorytmy zachłanne. Jedyna przewaga algorytmów \emph{Tabu Search} oraz \emph{Simulated Annealing} objawiała się w~miarze ,,efektywności'', czyli stosunkowi jakości rozwiązania końcowego do czasu potrzebnego na jego uzyskanie. Być może algorytmy te sprawdziły by się lepiej dla innych instancji, innej funkcji sąsiedztwa, bądź dla innego problemu. Inną przyczyną dla której \emph{SA} i~\emph{TS} okazują się gorsze niż algorytmy zachłanne może być zły dobór parametrów -- być może manipulacja nimi pozwoliłaby na uzyskanie lepszych rezultatów. Niemniej jednak oznaczałoby to konieczność strojenia algorytmu dla każdej z~instancji, a~pracę w~to włożoną trudno było by włączyć w~sensowny sposób do~powyższego porównania. Stąd pozostano przy wartościach domyślnych. Być może algorytmy te sprawdziłby się lepiej dla większych instancji, ale pojedyncze testy na instancjach rozmiaru 100 nie wykazały żadnego względnego polepszenia. Innym powodem, którego nie można wykluczyć, są być błędy implementacyjne. Starano się ich uniknąć, pokrywając kod algorytmów testami jednostkowymi.
 		\end{itemize}
 
 

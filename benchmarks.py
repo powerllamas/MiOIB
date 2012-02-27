@@ -210,7 +210,7 @@ if __name__ == '__main__':
             elif alg[0] in ["Annealing"]:
                 n = 100
             else:
-                n = 10
+                n = 100
 
             if alg[0] in ["Greedy", "Steepest", "Annealing", "Tabu"]:
                 max_time = int(args.maxtime)
