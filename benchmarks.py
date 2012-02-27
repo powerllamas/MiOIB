@@ -137,6 +137,7 @@ if __name__ == '__main__':
     parser.add_argument('-T', '--Tabu', action='append_const', dest='choosen_algorithms',
                         const='Tabu', help='Turns on tabu search algorithm')
     parser.add_argument('-n', '--norepeats', help='Number of repeats', default='100')
+    parser.add_argument('-t', '--maxtime', help='Maximum time of computation', default='180')
     parser.add_argument('-d', '--data', help='Data dir path', default='data')
     parser.add_argument('-r', '--results', help='Results dir path', default='results')
 
@@ -199,22 +200,25 @@ if __name__ == '__main__':
 
 
             if alg[0] == "Heuristic":
-                n = 1000
+                n = 100
             elif alg[0] in ["Random", "Multirandom"]:
-                n = 5000000                
+                #n = 5000000                
+                n = 500000
+                
             elif alg[0] in ["Greedy", "Tabu"]:
                 n = 100
             elif alg[0] in ["Annealing"]:
-                n = 10
+                n = 100
             else:
                 n = 10
 
             if alg[0] in ["Greedy", "Steepest", "Annealing", "Tabu"]:
-                max_time = 180
+                max_time = int(args.maxtime)
 
+            print "MAxtime: $1".format(max_time)
             elapsed, mean_time, solutions, startpoints = compute(inst, alg, n, max_time)
             if alg[0] in ["Greedy", "Steepest"]:
-                max_time = mean_time*1.001
+                max_time = mean_time
                
             start = time.clock()
             solutions_performance = [float(eval_.evaluate(solution)) for solution in solutions]
